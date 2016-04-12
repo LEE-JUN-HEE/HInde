@@ -21,6 +21,8 @@ public class AnimalControl : MonoBehaviour
     public bool IsJumping { get; set; }
     public bool IsPower { get; set; }
     public bool IsRunning { get; set; }
+    public float JumpForce = 0;
+    public float GravityScale = 0;
     Animator anim;
     Rigidbody2D rigid;
 
@@ -34,6 +36,11 @@ public class AnimalControl : MonoBehaviour
         anim.Play("Walk");
     }
 
+    void Update()
+    {
+        anim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
+    }
+
     public void Flip()
     {
         if (IsJumping) return;
@@ -43,13 +50,13 @@ public class AnimalControl : MonoBehaviour
             //temp
             transform.localRotation = Quaternion.identity;
             transform.Rotate(180, 0, 0);
-            rigid.gravityScale = -0.5f;
+            rigid.gravityScale = - GravityScale;
             IsUp = false;
         }
         else
         {
             transform.localRotation = Quaternion.identity;
-            rigid.gravityScale = 0.5f;
+            rigid.gravityScale = GravityScale;
             IsUp = true;
         }
     }
@@ -59,7 +66,7 @@ public class AnimalControl : MonoBehaviour
         if (IsJumping) return;
 
         IsJumping = true;
-        rigid.velocity = new Vector2(0, IsUp ? 2 : -2);
+        rigid.velocity = new Vector2(0, IsUp ? JumpForce : -JumpForce);
 
         //temp
         anim.SetTrigger("Jump");
@@ -84,6 +91,20 @@ public class AnimalControl : MonoBehaviour
             case "Ground":
                 OnCollide_Ground();
                 break;
+            case "BuildObject":
+                OnCollide_Build();
+                break;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        Debug.Log(col.name + " / " + col.tag);
+        switch (col.tag)
+        {
+            case "BuildObject":
+                OnCollide_Build();
+                break;
         }
     }
 
@@ -98,5 +119,10 @@ public class AnimalControl : MonoBehaviour
     void OnCollide_Get()
     {
         //switch(Object type)
+    }
+
+    void OnCollide_Build()
+    {
+        IG_Manager.Instance.GameOver();
     }
 }

@@ -2,20 +2,21 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class IG_Manager : MonoBehaviour 
+public class IG_Manager : MonoBehaviour
 {
     public static IG_Manager Instance;
 
     public GameObject GO_Start;
     public GameObject GO_Pause;
     public GameObject GO_GameOver;
+    public IG_ObjectPool ObjectPool;
     public AnimalControl AnimalCon;
 
     public float CurrentScore;
     public float CurrentGold;
     public int CurrentStage;
     public float SpeedRate { get; set; }
-    public bool IsGameOver { get; set;}
+    public bool IsGameOver { get; set; }
     public bool IsPause { get; set; }
 
 
@@ -24,6 +25,10 @@ public class IG_Manager : MonoBehaviour
     {
         Instance = this;
         IsPause = true;
+        ObjectPool.Init();
+        StageChange(0);
+
+
         GO_Start.transform.parent.gameObject.SetActive(true);
         GO_Start.SetActive(true);
     }
@@ -35,13 +40,20 @@ public class IG_Manager : MonoBehaviour
         GO_GameOver.SetActive(true);
     }
 
-    public void StageChange()
+    public void StageChange(int index)
     {
+        StartCoroutine(maploading(Local_DB.GetMapData(index)));
         //비동기로 맵 로딩, 배경바꾸기
     }
 
-    IEnumerator maploading() // 맵데이터 로딩
+    IEnumerator maploading(Data_Map ObjectList) // 맵데이터 로딩
     {
+        for(int i=0; i<ObjectList.Data.Count; i++)
+        {
+        IG_Object obj = ObjectPool.GetObejct();
+        obj.SetData(ObjectList.)
+
+        }
         yield break;
     }
 
@@ -85,7 +97,7 @@ public class IG_Manager : MonoBehaviour
     {
         Debug.Log("Retry");
         SceneManager.LoadScene("InGame");
-        
+
     }
 
     public void OnClick_Feed()

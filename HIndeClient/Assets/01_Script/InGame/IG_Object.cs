@@ -5,7 +5,7 @@ public class IG_Object : MonoBehaviour
 {
     public Data_Object Data;
     public Common.ObjectType Type;
-
+    public bool IsUse;
 
     void Update()
     {
@@ -57,11 +57,16 @@ public class IG_Object : MonoBehaviour
             Type = Common.ObjectType.Fly;
             tag = "Fly";
         }
+
+        gameObject.SetActive(true);
+        IsUse = true;
     }
 
     public void Clear()
     {
-        transform.position = Vector2.zero;
+        IG_Manager.Instance.ObjectPool.ReturnObject(this);
+        gameObject.SetActive(false);
+        IsUse = false;
     }
 
     void SetBuild()

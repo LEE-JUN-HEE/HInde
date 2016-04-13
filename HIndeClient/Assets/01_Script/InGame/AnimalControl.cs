@@ -85,21 +85,18 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        Debug.Log(col.collider.name + " / " + col.collider.tag);
+        //Debug.Log(col.collider.name + " / " + col.collider.tag);
         switch (col.collider.tag)
         {
             case "Ground":
                 OnCollide_Ground();
-                break;
-            case "BuildObject":
-                OnCollide_Build();
                 break;
         }
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.name + " / " + col.tag);
+        //Debug.Log(col.name + " / " + col.tag);
         switch (col.tag)
         {
             case "BuildObject":

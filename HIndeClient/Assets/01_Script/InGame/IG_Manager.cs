@@ -1,43 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class IG_Manager : MonoBehaviour
 {
+    //Logic
     public static IG_Manager Instance;
 
-    public GameObject GO_Start;
-    public GameObject GO_Pause;
-    public GameObject GO_GameOver;
+    public IG_UIManager UIManager;
     public IG_ObjectPool ObjectPool;
     public AnimalControl AnimalCon;
 
     public float CurrentScore;
     public float CurrentGold;
     public int CurrentStage;
+    public Queue<IG_Object> MapQueue = new Queue<IG_Object>();
+    public List<IG_Object> SetObjectList = new List<IG_Object>();
+
     public float SpeedRate { get; set; }
     public bool IsGameOver { get; set; }
     public bool IsPause { get; set; }
+    public bool IsStaging { get; set; }
 
 
     /* Method */
+    void Update()
+    {
+        StageCheck();
+    }
+
     void Start()
     {
         Instance = this;
+
+        SpeedRate = 1;
         IsPause = true;
+        IsStaging = false;
+        UIManager.Init();
         ObjectPool.Init();
-        StageChange(0);
+        CurrentStage = 1;
+        StageChange(CurrentStage);
+    }
 
+    void StageCheck()
+    {
+        //스테이지 진행경과 체크
+        if (IsStaging == false) return;
 
-        GO_Start.transform.parent.gameObject.SetActive(true);
-        GO_Start.SetActive(true);
+        if (Camera.main.WorldToViewportPoint(MapQueue.Peek().transform.position).x < Common.Clear_Pos_x)
+        {
+            MapQueue.Dequeue().Clear();
+            if (MapQueue.Count == 0)
+            {
+                IsStaging = false;
+                CurrentStage += (CurrentStage >= 3) ? 0 : 1;
+                StageChange(CurrentStage);
+            }
+        }
     }
 
     public void GameOver()
     {
         IsGameOver = true;
-        GO_GameOver.transform.parent.gameObject.SetActive(true);
-        GO_GameOver.SetActive(true);
+        UIManager.Popup(IG_UIManager.PopupType.GameOver, true);
     }
 
     public void StageChange(int index)
@@ -46,14 +72,16 @@ public class IG_Manager : MonoBehaviour
         //비동기로 맵 로딩, 배경바꾸기
     }
 
-    IEnumerator maploading(Data_Map ObjectList) // 맵데이터 로딩
+    IEnumerator maploading(Data_Map ObjectDataList) // 맵데이터 로딩
     {
-        for(int i=0; i<ObjectList.Data.Count; i++)
+        for (int i = 0; i < ObjectDataList.Data.Count; i++)
         {
-        IG_Object obj = ObjectPool.GetObejct();
-        obj.SetData(ObjectList.)
-
+            IG_Object obj = ObjectPool.GetObejct();
+            obj.SetData(ObjectDataList.Data[i]);
+            MapQueue.Enqueue(obj);
+            yield return null;
         }
+        IsStaging = true;
         yield break;
     }
 
@@ -61,9 +89,8 @@ public class IG_Manager : MonoBehaviour
     /* Handler */
     public void OnClick_Start()
     {
-        GO_Start.SetActive(false);
-        GO_Start.transform.parent.gameObject.SetActive(false);
         IsPause = false;
+        UIManager.Popup(IG_UIManager.PopupType.Start, false);
     }
 
     public void OnClick_Flip()
@@ -79,8 +106,7 @@ public class IG_Manager : MonoBehaviour
     public void OnClick_Pause()
     {
         IsPause = true;
-        GO_Pause.transform.parent.gameObject.SetActive(true);
-        GO_Pause.SetActive(true);
+        UIManager.Popup(IG_UIManager.PopupType.Pause, true);
     }
 
     public void OnClick_Exit()
@@ -108,7 +134,6 @@ public class IG_Manager : MonoBehaviour
     public void OnClick_Continuos()
     {
         IsPause = false;
-        GO_Pause.transform.parent.gameObject.SetActive(false);
-        GO_Pause.SetActive(false);
+        UIManager.Popup(IG_UIManager.PopupType.Pause, false);
     }
 }

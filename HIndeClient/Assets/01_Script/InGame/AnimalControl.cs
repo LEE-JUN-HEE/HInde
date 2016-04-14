@@ -102,6 +102,10 @@ public class AnimalControl : MonoBehaviour
             case "BuildObject":
                 OnCollide_Build();
                 break;
+
+            case "GetObject":
+                OnCollide_Get(col.GetComponent<IG_Object>());
+                break;
         }
     }
 
@@ -113,9 +117,23 @@ public class AnimalControl : MonoBehaviour
         anim.Play("Walk");
     }
 
-    void OnCollide_Get()
+    void OnCollide_Get(IG_Object col)
     {
-        //switch(Object type)
+        col.GetClear();
+        Data_GetObject data = col.Data as Data_GetObject;
+        switch (data.GetType)
+        {
+            case Common.GetType.Gold:
+                IG_Manager.Instance.CurrentGold += data.Value;
+                break;
+
+            case Common.GetType.HP:
+                //IG_Manager.Instance.CurrentGold += data.Value;
+                break;
+
+            case Common.GetType.Speed:
+                break;
+        }
     }
 
     void OnCollide_Build()

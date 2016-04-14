@@ -4,10 +4,17 @@ using System.Collections.Generic;
 
 public class Common
 {
-    static public float Fly_pos_y = 10;
-    static public float FullObj_y_Size = 100;
-    static public float JumpObj_y_Size = 10;
-    static public float Pos_y = 0;
+    static public float Fly_pos_y = 200;
+    static public float FullObj_y_Size = 600;
+    static public float JumpObj_y_Size = 100;
+    static public float Up_Pos_y = 50;
+    static public float Down_Pos_y = -50;
+    static public float Clear_Pos_x = -0.5f;
+    static public string Tag_Build = "BuildObject";
+    static public string Tag_Get = "GetObject";
+    static public string Tag_Fly = "FlyObject";
+    static public string Sprite_Gold = "000_icon";
+    static public string Sprite_Build = "012_icon_suriken";
    
     public enum PosType
     {
@@ -23,11 +30,13 @@ public class Common
     {
         Get,
         Build,
-        Fly,
+        FlyBuild,
+        FlyGet,
     }
 
     public enum GetType
     {
+        None,
         Gold,
         Speed,
         HP,
@@ -35,6 +44,7 @@ public class Common
 
     public enum Direction
     {
+        None,
         Left,
         Right,
         Up,

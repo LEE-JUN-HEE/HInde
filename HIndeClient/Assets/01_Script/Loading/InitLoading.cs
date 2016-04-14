@@ -2,6 +2,11 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+/*
+ * 최초 로딩화면
+ * 로컬 정보를 읽어 메모리에 저장하는 클래스
+ */
+
 public class InitLoading : MonoBehaviour 
 {
     public UILabel LB_Text = null;
@@ -25,7 +30,13 @@ public class InitLoading : MonoBehaviour
         Data_Map Mapdata = new Data_Map();
         for (int i = 0; i < 50; i++)
         {
-            System.Object[] data = { (i % 6).ToString(), (100 * i).ToString(), (i % 3).ToString(), (i % 3).ToString(), 0.ToString(), (i % 2).ToString(), 10.ToString() };
+            System.Object[] data = { (i % 6).ToString(),
+                                       (100 * i).ToString(),
+                                       (i % 3).ToString(),
+                                       (0.5).ToString(),
+                                       (2).ToString(),
+                                       (i % 2 + 1).ToString(),
+                                       10.ToString() };
             Data_Object temp;
             if (i % 3 == 0)
             {

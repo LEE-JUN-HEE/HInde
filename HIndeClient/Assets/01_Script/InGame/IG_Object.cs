@@ -1,35 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 장애물 클래스(View)
+ * 장애물 데이터를 기반으로 장애물을 화면에 표현하며
+ * 캐릭터와 충돌을 일으키는 충돌체를 가지고 있고
+ * IG_ObjectPool에 의해 관리된다.
+ */
+
 public class IG_Object : MonoBehaviour 
 {
     public Data_Object Data;
     public Common.ObjectType Type;
     public bool IsUse;
 
+    public UISprite SP_Image;
+
     void Update()
     {
-        if (Data == null) return;
-
+        if (Data == null) { Clear(); return; }
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;
-
-        if (Type == Common.ObjectType.Fly)
+        float curXPos = Camera.main.WorldToViewportPoint(this.transform.position).x;
+        GetComponent<Collider2D>().enabled = ((curXPos < 1) && (curXPos > -0.5));
+        
+        if (Type == Common.ObjectType.FlyBuild || Type == Common.ObjectType.FlyGet)
         {
-            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime);
+            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
         }
     }
 
     public void SetData(Data_Object data)
     {
         //위치 설정
+        Data = data;
         float pos_y = 0;
         switch (data.PosType)
         {
             case Common.PosType.Down_Full:
             case Common.PosType.Down_Jump:
+                pos_y = Common.Down_Pos_y;
+                break;
+
             case Common.PosType.Up_Jump:
             case Common.PosType.Up_Full:
-                pos_y = Common.Pos_y;
+                pos_y = Common.Up_Pos_y;
                 break;
 
             case Common.PosType.Up_Fly:
@@ -40,22 +54,30 @@ public class IG_Object : MonoBehaviour
                 pos_y = -Common.Fly_pos_y;
                 break;
         }
+        transform.localPosition = new Vector2(data.Pos_x, pos_y);
 
         //데이터 타입&태그 설정, 사이즈, 이미지 설정
         if (data is Data_BuildObject)
         {
             Type = Common.ObjectType.Build;
-            tag = "Build";
+            tag = Common.Tag_Build;
+            SetBuild();
         }
         else if (data is Data_GetObject)
         {
             Type = Common.ObjectType.Get;
-            tag = "Get";
+            tag = Common.Tag_Get;
+            SetGet();
         }
         else if (data is Data_FlyObject)
         {
-            Type = Common.ObjectType.Fly;
-            tag = "Fly";
+            Type = Common.ObjectType.FlyBuild;
+            tag = Common.Tag_Build;
+        }
+        else if(data is Data_FlyGetObject)
+        {
+            Type = Common.ObjectType.FlyGet;
+            tag = Common.Tag_Get;
         }
 
         gameObject.SetActive(true);
@@ -65,21 +87,40 @@ public class IG_Object : MonoBehaviour
     public void Clear()
     {
         IG_Manager.Instance.ObjectPool.ReturnObject(this);
+        Data = null; 
+        SP_Image.gameObject.SetActive(true);
         gameObject.SetActive(false);
         IsUse = false;
     }
 
+    public void GetClear()
+    {
+        SP_Image.gameObject.SetActive(false);
+    }
+
     void SetBuild()
     {
+        SP_Image.spriteName = Common.Sprite_Build;
         //타입 맞춰서 이미지 늘리기, 콜라이더 조정
     }
 
     void SetGet()
     {
+        switch ((Data as Data_GetObject).GetType)
+        {
+            case Common.GetType.Gold:
+                SP_Image.spriteName = Common.Sprite_Gold;
+                break;
+        }
         //이미지 변경
     }
 
-    void SetFly()
+    void SetFly(Data_FlyObject _data)
+    {
+        //이미지 변경
+    }
+
+    void SetFly(Data_FlyGetObject _data)
     {
         //이미지 변경
     }

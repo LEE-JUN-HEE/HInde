@@ -53,8 +53,8 @@ public class InitLoading : MonoBehaviour
             Mapdata.AddData(temp);
         }
 
-        Local_DB.MapData.Add(Mapdata);
-        Local_DB.MapData.Add(Mapdata);
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         Local_DB.MapData.Add(Mapdata);
         //임시맵 정보 끝
 
@@ -67,5 +67,46 @@ public class InitLoading : MonoBehaviour
         }
         SceneManager.UnloadScene("Init");        
         yield return null;
+    }
+
+    Data_Map ParseMap(string path)
+    {
+        Data_Map ret = new Data_Map();
+        //string[] read = System.IO.File.ReadAllLines(path);
+        Object ddebug = Resources.Load(path);
+        TextAsset TA = Resources.Load(path) as TextAsset;
+        
+        string[] read =  TA.text.Split('\n');
+
+        for (int i = 0; i < read.Length; i++)
+        {
+            Data_Object temp;
+            string[] split = read[i].Split('&');
+
+            if (split.Length == 1) continue;
+
+            switch ((Common.ObjectType)int.Parse(split[2]))
+            {
+                case Common.ObjectType.Get:
+                    temp = new Data_GetObject(split);
+                    break;
+                case Common.ObjectType.Build:
+                    temp = new Data_BuildObject(split);
+                    break;
+                case Common.ObjectType.FlyBuild:
+                    temp = new Data_FlyObject(split);
+                    break;
+                case Common.ObjectType.FlyGet:
+                    temp = new Data_FlyGetObject(split);
+                    break;
+
+                default:
+                    temp = new Data_Object();
+                    Debug.LogError("Null DataObject");
+                    break;
+            }
+            ret.AddData(temp);
+        }
+        return ret;
     }
 }

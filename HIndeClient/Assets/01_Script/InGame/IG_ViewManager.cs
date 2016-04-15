@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IG_UIManager : MonoBehaviour
+public class IG_ViewManager : MonoBehaviour
 {
     public enum PopupType
     {
@@ -9,6 +9,7 @@ public class IG_UIManager : MonoBehaviour
         Pause,
         GameOver,
     }
+    //UI
     public GameObject GO_PopupBlackBack;
     public GameObject GO_Start;
     public GameObject GO_Pause;
@@ -17,14 +18,17 @@ public class IG_UIManager : MonoBehaviour
     public UILabel LB_Score;
     public UILabel LB_Gold;
     public UILabel LB_Stage;
-
+    
+    //InGame
+    public UITexture TX_BG;
+    public UITexture TX_Ground;
     bool isInit = false;
 
     void Update()
     {
         if (isInit == false) return;
-        LB_Score.text = IG_Manager.Instance.CurrentScore.ToString("0:0.0");
-        LB_Gold.text = IG_Manager.Instance.CurrentGold.ToString("0:0");
+        LB_Score.text = IG_Manager.Instance.CurrentScore.ToString("F1");
+        LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
         LB_Stage.text = string.Format("{0} 스테이지",IG_Manager.Instance.CurrentStage);
     }
 

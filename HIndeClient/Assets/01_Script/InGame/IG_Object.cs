@@ -23,9 +23,13 @@ public class IG_Object : MonoBehaviour
         float curXPos = Camera.main.WorldToViewportPoint(this.transform.position).x;
         GetComponent<Collider2D>().enabled = ((curXPos < 1) && (curXPos > -0.5));
         
-        if (Type == Common.ObjectType.FlyBuild || Type == Common.ObjectType.FlyGet)
+        if (Type == Common.ObjectType.FlyBuild)
         {
             transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
+        }
+        else if (Type == Common.ObjectType.FlyGet)
+        {
+            transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
         }
     }
 

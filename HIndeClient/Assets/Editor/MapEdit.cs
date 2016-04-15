@@ -25,7 +25,8 @@ public class MapEdit : MonoBehaviour
             result += (float)temp.Value;
             result += "\n";
         }
-        System.IO.File.WriteAllText(Application.dataPath + "05_Resource/Map/", result);
+        System.IO.File.WriteAllText(Application.dataPath + "/Resources/Map/" + ObejctPool.name + ".bytes", result);
+        Debug.Log(ObejctPool.name + " is Export Complete");
     }
 	// Use this for initialization
 	void Start () {

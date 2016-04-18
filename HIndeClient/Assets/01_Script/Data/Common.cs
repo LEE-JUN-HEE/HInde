@@ -4,12 +4,16 @@ using System.Collections.Generic;
 
 public class Common
 {
+    static public float BasicVelocity = 1;
+    static public float StopTime = 1.5f;
+
     static public float Fly_pos_y = 200;
     static public float FullObj_y_Size = 600;
     static public float JumpObj_y_Size = 100;
     static public float Up_Pos_y = 50;
     static public float Down_Pos_y = -50;
     static public float Clear_Pos_x = -0.5f;
+
     static public string Tag_Build = "BuildObject";
     static public string Tag_Get = "GetObject";
     static public string Tag_Fly = "FlyObject";

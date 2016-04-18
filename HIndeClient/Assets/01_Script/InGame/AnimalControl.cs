@@ -26,7 +26,7 @@ public class AnimalControl : MonoBehaviour
     Animator anim;
     Rigidbody2D rigid;
 
-    void Start()
+    public void Init()
     {
         anim = this.GetComponent<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
@@ -69,7 +69,7 @@ public class AnimalControl : MonoBehaviour
         rigid.velocity = new Vector2(0, IsUp ? JumpForce : -JumpForce);
 
         //temp
-        anim.SetTrigger("Jump");
+        //anim.SetTrigger("Jump");
     }
 
     public void Running()
@@ -96,7 +96,7 @@ public class AnimalControl : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        //Debug.Log(col.name + " / " + col.tag);
+        Debug.Log(col.name + " / " + col.tag);
         switch (col.tag)
         {
             case "BuildObject":
@@ -138,6 +138,6 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollide_Build()
     {
-        IG_Manager.Instance.GameOver();
+        IG_Manager.Instance.AnimalStop();
     }
 }

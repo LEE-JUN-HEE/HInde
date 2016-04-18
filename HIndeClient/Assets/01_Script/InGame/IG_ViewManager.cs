@@ -14,22 +14,44 @@ public class IG_ViewManager : MonoBehaviour
     public GameObject GO_Start;
     public GameObject GO_Pause;
     public GameObject GO_GameOver;
+    public GameObject GO_Distance;
 
     public UILabel LB_Score;
     public UILabel LB_Gold;
     public UILabel LB_Stage;
+    public UILabel LB_Distance;
+
+    public UISprite SP_WebWarning;
     
     //InGame
     public UITexture TX_BG;
     public UITexture TX_Ground;
     bool isInit = false;
 
+    void Start()
+    {
+        SP_WebWarning.gameObject.SetActive(false);
+    }
+
     void Update()
     {
         if (isInit == false) return;
         LB_Score.text = IG_Manager.Instance.CurrentScore.ToString("F1");
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
-        LB_Stage.text = string.Format("{0} 스테이지",IG_Manager.Instance.CurrentStage);
+        LB_Stage.text = string.Format("{0:0.0} 스테이지",IG_Manager.Instance.CurrentStage);
+        DistanceCheck();
+    }
+
+    void DistanceCheck()
+    {
+        if(IG_Manager.Instance.RingMaCon.IsView)
+        {
+            GO_Distance.gameObject.SetActive(false);
+        }
+        else
+        {
+            LB_Distance.text = string.Format("{0} m",IG_Manager.Instance.AnimalCon.transform.localPosition.x - IG_Manager.Instance.RingMaCon.transform.localPosition.x);
+        }
     }
 
     public void Init()

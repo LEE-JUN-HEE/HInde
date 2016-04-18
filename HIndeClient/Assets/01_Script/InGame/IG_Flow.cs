@@ -11,6 +11,11 @@ public class IG_Flow : MonoBehaviour
 {
     public float velocity;
 	// Update is called once per frame
+    void Awake()
+    {
+        velocity = Common.BasicVelocity;
+    }
+
 	void Update () 
     {
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;

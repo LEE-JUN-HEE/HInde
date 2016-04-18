@@ -10,6 +10,8 @@ public class IG_Manager : MonoBehaviour
     public IG_ViewManager ViewManager;
     public IG_ObjectPool ObjectPool;
     public AnimalControl AnimalCon;
+    public RingMasterControl RingMaCon;
+    public Transform FirePos;
 
     public float CurrentScore;
     public float CurrentGold;
@@ -22,13 +24,19 @@ public class IG_Manager : MonoBehaviour
     public bool IsGameOver { get; set; }// 게임오버 변수. 게임오버 판단에 사용.
     public bool IsPause { get; set; }   // 정지 변수. 일시정지에 사용.
     public bool IsStaging { get; set; } // 스테이지 진행중 변수. 맵 교체시 교체 완료 확인으로 사용
-    public bool IsStart { get; set; }
+    public bool IsStart { get; set; }   // 시작여부 확인 변수.
+    public bool IsAnimalStopped { get; set; }
+
+    float StopTime = 0;
+    float CurSpeedRate = 0;
 
 
     /* Method */
     void Update()
     {
         StageCheck();
+        StopCheck();
+        GameOverCheck();
     }
 
     void Start()
@@ -39,9 +47,13 @@ public class IG_Manager : MonoBehaviour
         IsPause = true;
         IsStaging = false;
         IsStart = false;
+        IsAnimalStopped = false;
+        CurrentStage = 1;
+
+        AnimalCon.Init();
+        RingMaCon.Init();
         ViewManager.Init();
         ObjectPool.Init();
-        CurrentStage = 1;
         StageChange(CurrentStage);
     }
 
@@ -62,6 +74,27 @@ public class IG_Manager : MonoBehaviour
         }
     }
 
+    void StopCheck()
+    {
+        if (IsAnimalStopped == false) return;
+
+        if (StopTime + Common.StopTime < Time.fixedTime)
+        {
+            IsAnimalStopped = false;
+            AnimalRecovery();
+        }
+    }
+
+    void GameOverCheck()
+    {
+        if(IsGameOver) return;
+
+        if (RingMaCon.transform.position.x > AnimalCon.transform.position.x)
+        {
+            GameOver();
+        }
+    }
+
     public void GameOver()
     {
         IsGameOver = true;
@@ -74,7 +107,23 @@ public class IG_Manager : MonoBehaviour
         //비동기로 맵 로딩, 배경바꾸기
     }
 
-    IEnumerator maploading(int index ) // 맵데이터 로딩
+    public void AnimalStop()
+    {
+        if (IsAnimalStopped == true) return;
+
+        CurSpeedRate = SpeedRate;
+        SpeedRate = 0;
+        IsAnimalStopped = true;
+        StopTime = Time.fixedTime;
+    }
+
+    public void AnimalRecovery()
+    {
+        SpeedRate = CurSpeedRate;
+        IsAnimalStopped = false;
+    }
+
+    IEnumerator maploading(int index) // 맵데이터 로딩
     {
         bool FadeOut = CurrentStage <= 3 && IsStart == true;
         if (FadeOut)
@@ -93,7 +142,7 @@ public class IG_Manager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        if (FadeOut) 
+        if (FadeOut)
         {
             ViewManager.TX_BG.mainTexture = BGList[CurrentStage - 1];
             ViewManager.TX_Ground.mainTexture = GroundList[CurrentStage - 1];
@@ -104,6 +153,8 @@ public class IG_Manager : MonoBehaviour
     }
 
 
+
+
     /* Handler */
     public void OnClick_Start()
     {
@@ -112,13 +163,17 @@ public class IG_Manager : MonoBehaviour
         ViewManager.Popup(IG_ViewManager.PopupType.Start, false);
     }
 
-    public void OnClick_Flip()
+    public void Flip()
     {
+        if (IsAnimalStopped == true) return;
+
         AnimalCon.Flip();
     }
 
-    public void OnClick_Jump()
+    public void Jump()
     {
+        if (IsAnimalStopped == true) return;
+
         AnimalCon.Jump();
     }
 

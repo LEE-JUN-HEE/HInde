@@ -21,6 +21,9 @@ public class IG_ViewManager : MonoBehaviour
     public UILabel LB_Stage;
     public UILabel LB_Distance;
 
+    public UILabel LB_Popup_Score;
+    public UILabel LB_Popup_Gold;
+
     public UISprite SP_WebWarning;
     
     //InGame
@@ -36,9 +39,9 @@ public class IG_ViewManager : MonoBehaviour
     void Update()
     {
         if (isInit == false) return;
-        LB_Score.text = IG_Manager.Instance.CurrentScore.ToString("F1");
+        LB_Score.text = string.Format("{0:0.0}", IG_Manager.Instance.CurrentScore);
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
-        LB_Stage.text = string.Format("{0:0.0} 스테이지",IG_Manager.Instance.CurrentStage);
+        LB_Stage.text = string.Format("{0:0} 스테이지",IG_Manager.Instance.CurrentStage);
         DistanceCheck();
     }
 
@@ -50,8 +53,13 @@ public class IG_ViewManager : MonoBehaviour
         }
         else
         {
-            LB_Distance.text = string.Format("{0} m",IG_Manager.Instance.AnimalCon.transform.localPosition.x - IG_Manager.Instance.RingMaCon.transform.localPosition.x);
+            LB_Distance.text = string.Format("{0:0.0} m",(IG_Manager.Instance.AnimalCon.transform.position.x - IG_Manager.Instance.RingMaCon.transform.position.x) * 5);
         }
+    }
+
+    public void SetActiveWarning(bool value)
+    {
+        SP_WebWarning.gameObject.SetActive(value);
     }
 
     public void Init()
@@ -82,6 +90,8 @@ public class IG_ViewManager : MonoBehaviour
             case PopupType.GameOver:
                 GO_GameOver.transform.parent.gameObject.SetActive(isOpen);
                 GO_GameOver.SetActive(isOpen);
+                LB_Popup_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
+                LB_Popup_Score.text = string.Format("{0:0.0} M", IG_Manager.Instance.CurrentScore);
                 GO_Pause.SetActive(false);
                 GO_Start.SetActive(false);
                 break;

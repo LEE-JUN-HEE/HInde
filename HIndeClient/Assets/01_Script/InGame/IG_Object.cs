@@ -13,23 +13,41 @@ public class IG_Object : MonoBehaviour
     public Data_Object Data;
     public Common.ObjectType Type;
     public bool IsUse;
+    public Rigidbody2D rigid;
+    public IG_Flow Flow;
 
     public UISprite SP_Image;
 
+    public bool Debugb;
+
+
+    public bool IsColandFly { get; set; }
+
     void Update()
     {
+        Debugb = IsColandFly;
         if (Data == null) { Clear(); return; }
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;
+
         float curXPos = Camera.main.WorldToViewportPoint(this.transform.position).x;
-        GetComponent<Collider2D>().enabled = ((curXPos < 1) && (curXPos > -0.5));
-        
+        GetComponent<Collider2D>().enabled = ((curXPos < 1) && (curXPos > -0.5) && !IsColandFly);
+        FlyObejctCheck();
+
+        if (IsColandFly && curXPos > Common.FlyClear_Pos_x)
+        {
+            Clear();
+        }
+    }
+
+    void FlyObejctCheck()
+    {
         if (Type == Common.ObjectType.FlyBuild)
         {
-            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
+            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime);
         }
         else if (Type == Common.ObjectType.FlyGet)
         {
-            transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
+            transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime);
         }
     }
 
@@ -93,14 +111,22 @@ public class IG_Object : MonoBehaviour
         IG_Manager.Instance.ObjectPool.ReturnObject(this);
         Data = null; 
         SP_Image.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        Flow.enabled = true;
+        rigid.isKinematic = true;
+        IsColandFly = false;
         IsUse = false;
+
+        gameObject.SetActive(false);
     }
 
     public void GetClear()
     {
         SP_Image.gameObject.SetActive(false);
     }
+
+    //public void CollideFlyClear()
+    //{
+    //}
 
     void SetBuild()
     {
@@ -127,5 +153,13 @@ public class IG_Object : MonoBehaviour
     void SetFly(Data_FlyGetObject _data)
     {
         //이미지 변경
+    }
+
+    public void CollideGone()
+    {
+        Flow.enabled = false;
+        IsColandFly = true;
+        rigid.isKinematic = false;
+        rigid.velocity = (new Vector2(50, 30).normalized * 7);
     }
 }

@@ -16,11 +16,12 @@ public class AnimalControl : MonoBehaviour
     */
     //Data변수 추가
 
-    public bool IsStart { get; set; }
     public bool IsUp { get; set; }
     public bool IsJumping { get; set; }
     public bool IsPower { get; set; }
     public bool IsRunning { get; set; }
+    public bool IsStopped { get; set; }
+
     public float JumpForce = 0;
     public float GravityScale = 0;
     Animator anim;
@@ -31,6 +32,9 @@ public class AnimalControl : MonoBehaviour
         anim = this.GetComponent<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         IsUp = true;
+        IsPower = false;
+        IsStopped = false;
+        IsJumping = false;
 
         //temp
         anim.Play("Walk");
@@ -100,11 +104,15 @@ public class AnimalControl : MonoBehaviour
         switch (col.tag)
         {
             case "BuildObject":
-                OnCollide_Build();
+                OnCollide_Build(col.GetComponent<IG_Object>());
                 break;
 
             case "GetObject":
                 OnCollide_Get(col.GetComponent<IG_Object>());
+                break;
+
+            case "Web":
+                OnCollide_Web(col);
                 break;
         }
     }
@@ -132,12 +140,28 @@ public class AnimalControl : MonoBehaviour
                 break;
 
             case Common.GetType.Speed:
+                IG_Manager.Instance.AnimalRun(data.Value);
                 break;
         }
     }
 
-    void OnCollide_Build()
+    void OnCollide_Build(IG_Object col)
     {
-        IG_Manager.Instance.AnimalStop();
+        if (IsRunning)
+        {
+            col.CollideGone();
+            //장애물 튕김액션
+        }
+        else
+        {
+            IG_Manager.Instance.AnimalStop();
+        }
+    }
+
+    void OnCollide_Web(Collider2D col)
+    {
+        //잡히는 애니메이션
+        col.gameObject.SetActive(false);
+        IG_Manager.Instance.GameOver();
     }
 }

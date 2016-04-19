@@ -12,7 +12,6 @@ public class IG_Projectile : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Camera.main.WorldToViewportPoint(transform.position));
         if (Camera.main.WorldToViewportPoint(transform.position).x > 1.2f ||
             Camera.main.WorldToViewportPoint(transform.position).x < -0.2f ||
             Camera.main.WorldToViewportPoint(transform.position).y > 1.2f ||

@@ -20,6 +20,6 @@ public class IG_Flow : MonoBehaviour
     {
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;
 
-        transform.Translate(-velocity * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate, 0, 0);
+        transform.Translate(new Vector2(- velocity, 0) * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
 	}
 }

@@ -21,13 +21,19 @@ public class RingMasterControl : MonoBehaviour
 
         IsView = Camera.main.WorldToScreenPoint(transform.position).x > 0;
 
-        if (IG_Manager.Instance.IsAnimalStopped == false)
+        //if (IG_Manager.Instance.AnimalCon.IsRunning)
+        //{
+        //    transform.Translate(new Vector2(velocity - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
+        //    return;
+        //}
+
+        if (IG_Manager.Instance.AnimalCon.IsStopped == false)
         {
-            transform.Translate(new Vector2(velocity, 0) * Time.fixedDeltaTime * IG_Manager.Instance.SpeedRate);
+            transform.Translate(new Vector2(velocity - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
         }
         else
         {
-            transform.Translate(new Vector2(velocity + Common.BasicVelocity * RageSpeedRate, 0) * Time.fixedDeltaTime);
+            transform.Translate(new Vector2(velocity * RageSpeedRate, 0) * Time.fixedDeltaTime, Space.World);
         }
     }
 
@@ -37,14 +43,13 @@ public class RingMasterControl : MonoBehaviour
         {
             WebProj.transform.position = FirePos.position;
             WebProj.gameObject.SetActive(true);
-            WebProj.AddForce((IG_Manager.Instance.AnimalCon.transform.localPosition - transform.localPosition).normalized * 100);
+            WebProj.AddForce((IG_Manager.Instance.TargetPos.localPosition - IG_Manager.Instance.AnimalCon.transform.localPosition).normalized * 50);
         }
         else
         {
             WebProj.transform.position = IG_Manager.Instance.FirePos.position;
             WebProj.gameObject.SetActive(true);
-            WebProj.AddForce((IG_Manager.Instance.AnimalCon.transform.localPosition - IG_Manager.Instance.FirePos.localPosition).normalized * 100);
-        
+            WebProj.AddForce((IG_Manager.Instance.TargetPos.localPosition - IG_Manager.Instance.AnimalCon.transform.localPosition).normalized * 50);
         }
     }
 
@@ -55,8 +60,12 @@ public class RingMasterControl : MonoBehaviour
             if (IG_Manager.Instance.IsGameOver) yield break;
             while (IG_Manager.Instance.IsPause) yield return null;
 
+            IG_Manager.Instance.ViewManager.SetActiveWarning(true);
+            yield return new WaitForSeconds(1);
+            IG_Manager.Instance.ViewManager.SetActiveWarning(false);
+
             FireWeb();
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
         }
     }
 }

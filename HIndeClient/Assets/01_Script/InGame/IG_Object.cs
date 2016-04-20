@@ -12,9 +12,10 @@ public class IG_Object : MonoBehaviour
 {
     public Data_Object Data;
     public Common.ObjectType Type;
-    public bool IsUse;
-    public Rigidbody2D rigid;
+    public BoxCollider2D Col;
+    public Rigidbody2D Rigid;
     public IG_Flow Flow;
+    public bool IsUse;
 
     public UISprite SP_Image;
 
@@ -59,22 +60,29 @@ public class IG_Object : MonoBehaviour
         switch (data.PosType)
         {
             case Common.PosType.Down_Full:
+                pos_y = Common.Down_Full_Pos_y;
+                break;
+
+            case Common.PosType.Up_Full:
+                pos_y = Common.Up_Full_Pos_y;
+                break;
+
             case Common.PosType.Down_Jump:
                 pos_y = Common.Down_Pos_y;
                 break;
 
             case Common.PosType.Up_Jump:
-            case Common.PosType.Up_Full:
                 pos_y = Common.Up_Pos_y;
+                break;
+
+            case Common.PosType.Down_Fly:
+                pos_y = - Common.Fly_pos_y;
                 break;
 
             case Common.PosType.Up_Fly:
                 pos_y = Common.Fly_pos_y;
                 break;
 
-            case Common.PosType.Down_Fly:
-                pos_y = -Common.Fly_pos_y;
-                break;
         }
         transform.localPosition = new Vector2(data.Pos_x, pos_y);
 
@@ -95,11 +103,13 @@ public class IG_Object : MonoBehaviour
         {
             Type = Common.ObjectType.FlyBuild;
             tag = Common.Tag_Build;
+            SetFly(data as Data_FlyObject);
         }
         else if(data is Data_FlyGetObject)
         {
             Type = Common.ObjectType.FlyGet;
             tag = Common.Tag_Get;
+            SetFly(data as Data_FlyGetObject);
         }
 
         gameObject.SetActive(true);
@@ -112,7 +122,7 @@ public class IG_Object : MonoBehaviour
         Data = null; 
         SP_Image.gameObject.SetActive(true);
         Flow.enabled = true;
-        rigid.isKinematic = true;
+        Rigid.isKinematic = true;
         IsColandFly = false;
         IsUse = false;
 
@@ -130,7 +140,26 @@ public class IG_Object : MonoBehaviour
 
     void SetBuild()
     {
-        SP_Image.spriteName = Common.Sprite_Build;
+        switch ((Data as Data_BuildObject).PosType)
+        {
+            case Common.PosType.Down_Jump:
+            case Common.PosType.Up_Jump:
+                SP_Image.spriteName = Common.Sprite_Build;
+                break;
+
+            case Common.PosType.Up_Full:
+            case Common.PosType.Down_Full:
+                SP_Image.spriteName = Common.Sprite_Column;
+                SP_Image.height = (int)Common.FullObj_y_Size;
+                Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
+                break;
+
+            case Common.PosType.Up_Fly:
+            case Common.PosType.Down_Fly:
+                SP_Image.spriteName = Common.Sprite_Fly;
+                break;
+        }
+        
         //타입 맞춰서 이미지 늘리기, 콜라이더 조정
     }
 
@@ -141,17 +170,32 @@ public class IG_Object : MonoBehaviour
             case Common.GetType.Gold:
                 SP_Image.spriteName = Common.Sprite_Gold;
                 break;
+
+            case Common.GetType.Speed:
+                SP_Image.spriteName = Common.Sprite_Booster;
+                break;
         }
         //이미지 변경
     }
 
     void SetFly(Data_FlyObject _data)
     {
+        SP_Image.spriteName = Common.Sprite_Fly;
         //이미지 변경
     }
 
     void SetFly(Data_FlyGetObject _data)
     {
+        switch ((Data as Data_FlyGetObject).GetType)
+        {
+            case Common.GetType.Gold:
+                SP_Image.spriteName = Common.Sprite_Gold;
+                break;
+
+            case Common.GetType.Speed:
+                SP_Image.spriteName = Common.Sprite_Booster;
+                break;
+        }
         //이미지 변경
     }
 
@@ -159,7 +203,7 @@ public class IG_Object : MonoBehaviour
     {
         Flow.enabled = false;
         IsColandFly = true;
-        rigid.isKinematic = false;
-        rigid.velocity = (new Vector2(50, 30).normalized * 7);
+        Rigid.isKinematic = false;
+        Rigid.velocity = (new Vector2(50, 30).normalized * 7);
     }
 }

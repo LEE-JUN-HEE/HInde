@@ -20,8 +20,8 @@ public class IG_Manager : MonoBehaviour
     public Queue<IG_Object> MapQueue = new Queue<IG_Object>();
     public List<Texture> BGList = new List<Texture>();
     public List<Texture> GroundList = new List<Texture>();
-    public IG_Object Debugl;
 
+    public float BasicSpeedRate;
     public float SpeedRate { get; set; }
     public bool IsGameOver { get; set; }// 게임오버 변수. 게임오버 판단에 사용.
     public bool IsPause { get; set; }   // 정지 변수. 일시정지에 사용.
@@ -29,6 +29,7 @@ public class IG_Manager : MonoBehaviour
     public bool IsStart { get; set; }   // 시작여부 확인 변수.
 
     float StopTime = 0;
+    float StopDuration = 0;
     float RunStartTime = 0;
     float RunDuration = 0;
     float CurSpeedRate = 0;
@@ -48,7 +49,8 @@ public class IG_Manager : MonoBehaviour
     {
         Instance = this;
 
-        SpeedRate = 1;
+        BasicSpeedRate = 1f;
+        SpeedRate = BasicSpeedRate;
         IsPause = true;
         IsStaging = false;
         IsStart = false;
@@ -65,14 +67,22 @@ public class IG_Manager : MonoBehaviour
     {
         //스테이지 진행경과 체크
         if (IsStaging == false) return;
-        Debugl = MapQueue.Peek();
         if (MapQueue.Peek().IsColandFly == true || MapQueue.Peek().Data == null)
         {
             MapQueue.Dequeue(); 
             if (MapQueue.Count == 0)
             {
                 IsStaging = false;
-                CurrentStage += (CurrentStage >= 3) ? 0 : 1;
+                if(CurrentStage >= 3)
+                {
+
+                }
+                else
+                {
+                    CurrentStage += 1;
+                    BasicSpeedRate += 0.1f;
+                }
+
                 StageChange(CurrentStage);
             }
             return;
@@ -94,7 +104,7 @@ public class IG_Manager : MonoBehaviour
     {
         if (AnimalCon.IsStopped == false) return;
 
-        if (StopTime + Common.StopTime < Time.fixedTime)
+        if (StopTime + StopDuration < Time.fixedTime)
         {
             AnimalRecovery();
         }
@@ -156,19 +166,20 @@ public class IG_Manager : MonoBehaviour
     }
 
     //Animal 관련 로직중 'SpeedRate'와 '아이템 지속시간' 관련 로직은 IG_Manager에서 처리
-    public void AnimalStop()
+    public void AnimalStop(float _duration)
     {
         if (AnimalCon.IsStopped == true) return;
 
-        CurSpeedRate = SpeedRate;
+        //CurSpeedRate = SpeedRate;
         SpeedRate = 0;
         AnimalCon.IsStopped = true;
         StopTime = Time.fixedTime;
+        StopDuration = _duration;
     }
 
     public void AnimalRecovery()
     {
-        SpeedRate = CurSpeedRate;
+        SpeedRate = BasicSpeedRate;
         AnimalCon.IsStopped = false;
     }
 
@@ -176,7 +187,7 @@ public class IG_Manager : MonoBehaviour
     {
         if (AnimalCon.IsRunning == false)
         {
-            CurSpeedRate = SpeedRate;
+            //CurSpeedRate = SpeedRate;
             SpeedRate = Common.RunSpeedRate;
         }
         AnimalCon.IsRunning = true;
@@ -186,7 +197,7 @@ public class IG_Manager : MonoBehaviour
 
     public void AnimalRunEnd()
     {
-        SpeedRate = CurSpeedRate;
+        SpeedRate = BasicSpeedRate;
         AnimalCon.IsRunning = false;
         //Animalcon의 애니메이션 바꿔주는 메소드
     }

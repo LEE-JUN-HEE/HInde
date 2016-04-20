@@ -55,7 +55,7 @@ public class InitLoading : MonoBehaviour
 
         Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        Local_DB.MapData.Add(Mapdata);
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         //임시맵 정보 끝
 
         AsyncOperation scene = SceneManager.LoadSceneAsync("InGame", LoadSceneMode.Additive);
@@ -72,8 +72,6 @@ public class InitLoading : MonoBehaviour
     Data_Map ParseMap(string path)
     {
         Data_Map ret = new Data_Map();
-        //string[] read = System.IO.File.ReadAllLines(path);
-        Object ddebug = Resources.Load(path);
         TextAsset TA = Resources.Load(path) as TextAsset;
         
         string[] read =  TA.text.Split('\n');

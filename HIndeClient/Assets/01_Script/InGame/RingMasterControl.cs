@@ -65,7 +65,7 @@ public class RingMasterControl : MonoBehaviour
             IG_Manager.Instance.ViewManager.SetActiveWarning(false);
 
             FireWeb();
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
         }
     }
 }

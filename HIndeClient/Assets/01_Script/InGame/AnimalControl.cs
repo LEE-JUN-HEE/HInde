@@ -100,7 +100,7 @@ public class AnimalControl : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.name + " / " + col.tag);
+        //Debug.Log(col.name + " / " + col.tag);
         switch (col.tag)
         {
             case "BuildObject":
@@ -154,7 +154,7 @@ public class AnimalControl : MonoBehaviour
         }
         else
         {
-            IG_Manager.Instance.AnimalStop();
+            IG_Manager.Instance.AnimalStop(Common.StopTime);
         }
     }
 
@@ -162,6 +162,14 @@ public class AnimalControl : MonoBehaviour
     {
         //잡히는 애니메이션
         col.gameObject.SetActive(false);
-        IG_Manager.Instance.GameOver();
+        if (IG_Manager.Instance.AnimalCon.IsRunning)
+        {
+            IG_Manager.Instance.AnimalRunEnd();
+        }
+        else
+        {
+            IG_Manager.Instance.AnimalStop(Common.WebStopTime);
+        }
+        //IG_Manager.Instance.GameOver();
     }
 }

@@ -25,7 +25,7 @@ public class IG_ViewManager : MonoBehaviour
     public UILabel LB_Popup_Gold;
 
     public UISprite SP_WebWarning;
-    
+
     //InGame
     public UITexture TX_BG;
     public UITexture TX_Ground;
@@ -41,20 +41,15 @@ public class IG_ViewManager : MonoBehaviour
         if (isInit == false) return;
         LB_Score.text = string.Format("{0:0.0}", IG_Manager.Instance.CurrentScore);
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
-        LB_Stage.text = string.Format("{0:0} 스테이지",IG_Manager.Instance.CurrentStage);
+        LB_Stage.text = string.Format("{0:0} 스테이지", IG_Manager.Instance.CurrentStage);
         DistanceCheck();
     }
 
     void DistanceCheck()
     {
-        if(IG_Manager.Instance.RingMaCon.IsView)
-        {
-            GO_Distance.gameObject.SetActive(false);
-        }
-        else
-        {
-            LB_Distance.text = string.Format("{0:0.0} m",(IG_Manager.Instance.AnimalCon.transform.position.x - IG_Manager.Instance.RingMaCon.transform.position.x) * 5);
-        }
+        GO_Distance.gameObject.SetActive(!IG_Manager.Instance.RingMaCon.IsView);
+        LB_Distance.text = string.Format("{0:0.0} m", (IG_Manager.Instance.AnimalCon.transform.position.x - IG_Manager.Instance.RingMaCon.transform.position.x) * 5);
+
     }
 
     public void SetActiveWarning(bool value)

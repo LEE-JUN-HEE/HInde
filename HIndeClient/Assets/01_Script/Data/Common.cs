@@ -7,7 +7,7 @@ public class Common
     static public float BasicVelocity = 1;
     static public float StopTime = 1.5f;
     static public float WebStopTime = 2.5f;
-    static public float RunSpeedRate = 4f;
+    static public float RunSpeedRate = 3f;
 
     static public float Fly_pos_y = 200;
     static public float FullObj_y_Size = 400;

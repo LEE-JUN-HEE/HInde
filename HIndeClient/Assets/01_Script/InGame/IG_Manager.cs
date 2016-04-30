@@ -49,7 +49,10 @@ public class IG_Manager : MonoBehaviour
 
     void Start()
     {
+        //로딩들
         Instance = this;
+
+        //선택정보를 가지고있는 클래스에서 정보 받아와서 캐릭터 로드.
 
         BasicSpeedRate = 1f;
         SpeedRate = BasicSpeedRate;
@@ -241,7 +244,6 @@ public class IG_Manager : MonoBehaviour
         ViewManager.Popup(IG_ViewManager.PopupType.Start, false);
     }
 
-
     public void OnClick_Pause()
     {
         IsPause = true;
@@ -250,7 +252,7 @@ public class IG_Manager : MonoBehaviour
 
     public void OnClick_Exit()
     {
-        Debug.Log("Exit");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void OnClick_Setting()

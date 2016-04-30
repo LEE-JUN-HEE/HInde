@@ -1,80 +1,101 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+
 
 /*
  * 최초 로딩화면
  * 로컬 정보를 읽어 메모리에 저장하는 클래스
  */
 
-public class InitLoading : MonoBehaviour 
+public class InitLoading : MonoBehaviour
 {
     public UILabel LB_Text = null;
-	void Start () 
+    public GameObject Login_Popup = null;
+
+    bool isPopup = false;
+    bool isLoggined = false;
+    bool isLoginCancel = false;
+    bool isComplete = false;// 로딩 완료
+    bool isClick = false;   // 로딩 완료 후 클릭
+
+    void Start()
     {
         StartCoroutine(Loading());
-	}
+    }
 
     IEnumerator Loading()
     {
-        //
-        //로컬 파일 읽어와서 파싱후 데이터 생성
-        //맵 데이터 리스트, 환경설정
+        //맵 데이터 리스트
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         //
 
+        //환경설정
         //
+
+        //구글 로그인
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+        .Build();
+        PlayGamesPlatform.InitializeInstance(config);
+        PlayGamesPlatform.Activate();
+
+       
+        while (isLoggined == false && isLoginCancel == false)
+        {
+            Social.localUser.Authenticate((bool success) =>
+            {
+                isLoggined = success;
+                Debug.Log(success);
+            });
+
+            if (isLoggined == false)
+            {
+                yield return StartCoroutine(LoginPopup());
+            }
+            yield return null;
+        }
+
         //유저정보 읽어오기(서버 연동이면 서버작업, 로컬이면 로컬작업)
         //
 
-        //임시 맵정보
-        Data_Map Mapdata = new Data_Map();
-        for (int i = 0; i < 50; i++)
-        {
-            System.Object[] data = { (i % 6).ToString(),
-                                       (100 * i).ToString(),
-                                       (i % 3).ToString(),
-                                       (0.5).ToString(),
-                                       (2).ToString(),
-                                       (i % 2 + 1).ToString(),
-                                       10.ToString() };
-            Data_Object temp;
-            if (i % 3 == 0)
-            {
-                temp = new Data_GetObject(data);
-            }
-            else if (i % 3 == 1)
-            {
-                temp = new Data_BuildObject(data);
-            }
-            else
-            {
-                temp = new Data_FlyObject(data);
-            }
-            Mapdata.AddData(temp);
-        }
+        isComplete = true;
+        LB_Text.text = "로딩 완료. 계속하려면 터치하세요";
 
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        //임시맵 정보 끝
-
-        AsyncOperation scene = SceneManager.LoadSceneAsync("InGame", LoadSceneMode.Additive);
-        
-        while (!scene.isDone)
+        while (isClick == false)
         {
-            LB_Text.text = scene.progress.ToString();
             yield return null;
         }
-        SceneManager.UnloadScene("Init");        
-        yield return null;
+
+        SceneManager.LoadScene("Lobby");
+        yield break;
+    }
+
+    IEnumerator LoginPopup()
+    {
+        isPopup = true;
+        Login_Popup.SetActive(true);
+
+        while (isPopup == true)
+        {
+            yield return null;
+        }
+
+        isPopup = false;
+        Login_Popup.SetActive(false);
+        yield break;
     }
 
     Data_Map ParseMap(string path)
     {
         Data_Map ret = new Data_Map();
         TextAsset TA = Resources.Load(path) as TextAsset;
-        
-        string[] read =  TA.text.Split('\n');
+
+        string[] read = TA.text.Split('\n');
 
         for (int i = 0; i < read.Length; i++)
         {
@@ -106,5 +127,23 @@ public class InitLoading : MonoBehaviour
             ret.AddData(temp);
         }
         return ret;
+    }
+
+    public void OnClick_Continue()
+    {
+        if (isComplete == false) return;
+
+        isClick = true;
+    }
+
+    public void OnClick_ReLogin()
+    {
+        isPopup = false;
+    }
+
+    public void OnClick_LoginCancel()
+    {
+        isPopup = false;
+        isLoginCancel = true;
     }
 }

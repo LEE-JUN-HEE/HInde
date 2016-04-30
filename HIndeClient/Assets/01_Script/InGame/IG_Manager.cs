@@ -11,6 +11,7 @@ public class IG_Manager : MonoBehaviour
     public IG_ObjectPool ObjectPool;
     public AnimalControl AnimalCon;
     public RingMasterControl RingMaCon;
+    public AudioSource BGM;
     public Transform FirePos;
     public Transform TargetPos;
 
@@ -20,6 +21,7 @@ public class IG_Manager : MonoBehaviour
     public Queue<IG_Object> MapQueue = new Queue<IG_Object>();
     public List<Texture> BGList = new List<Texture>();
     public List<Texture> GroundList = new List<Texture>();
+    public List<AudioClip> BGMList = new List<AudioClip>();
 
     public float BasicSpeedRate;
     public float SpeedRate { get; set; }

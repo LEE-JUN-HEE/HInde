@@ -20,7 +20,7 @@ public class Common
 
     static public float Clear_Pos_x = -0.5f;
     static public float FlyClear_Pos_x = 1.5f;
-
+    Texture hg;
     static public string Tag_Build = "BuildObject";
     static public string Tag_Get = "GetObject";
     static public string Tag_Fly = "FlyObject";
@@ -29,7 +29,7 @@ public class Common
     static public string Sprite_Booster = "Booster";
     static public string Sprite_Fly = "Fly";
     static public string Sprite_Column = "Column";
-   
+
     public enum PosType
     {
         Up_Fly = 0,

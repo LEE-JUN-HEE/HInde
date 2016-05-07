@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AnimalControl : MonoBehaviour
 {
+    public enum sound
+    {
+        Jump = 0,
+        Die = 1,
+        Change = 2,
+    }
     /*
      애니메이션 상황
      * Walk(Idle)
@@ -22,6 +29,8 @@ public class AnimalControl : MonoBehaviour
     public bool IsRunning { get; set; }
     public bool IsStopped { get; set; }
 
+    public List<AudioClip> SoundList = new List<AudioClip>();
+    public AudioSource AnimalAudio;
     public float JumpForce = 0;
     public float GravityScale = 0;
     Animator anim;
@@ -54,7 +63,7 @@ public class AnimalControl : MonoBehaviour
             //temp
             transform.localRotation = Quaternion.identity;
             transform.Rotate(180, 0, 0);
-            rigid.gravityScale = - GravityScale;
+            rigid.gravityScale = -GravityScale;
             IsUp = false;
         }
         else
@@ -69,6 +78,7 @@ public class AnimalControl : MonoBehaviour
     {
         if (IsJumping) return;
 
+        PlaySound(sound.Jump);
         IsJumping = true;
         rigid.velocity = new Vector2(0, IsUp ? JumpForce : -JumpForce);
 
@@ -85,6 +95,17 @@ public class AnimalControl : MonoBehaviour
     public void Die()
     {
 
+    }
+
+    public void PlaySound(sound index)
+    {
+        switch (index)
+        {
+            case sound.Jump:
+                AnimalAudio.clip = SoundList[(int)sound.Jump];
+                break;
+        }
+        AnimalAudio.Play();
     }
 
     void OnCollisionEnter2D(Collision2D col)

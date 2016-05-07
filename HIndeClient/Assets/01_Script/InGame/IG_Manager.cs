@@ -142,6 +142,20 @@ public class IG_Manager : MonoBehaviour
         }
     }
 
+    void Pause(bool isOn)
+    {
+        IsPause = isOn;
+        if (isOn)
+        {
+            BGM.Pause();
+        }
+        else
+        {
+            BGM.Play();
+        }
+    }
+
+    
     //////////////////////////////////////////
 
     public void GameOver()
@@ -224,15 +238,30 @@ public class IG_Manager : MonoBehaviour
         }
         IsStaging = true;
 
-        yield return new WaitForSeconds(1f);
 
         if (FadeOut)
         {
+            yield return StartCoroutine(BGMFade(false));
+            BGM.Stop();
+            BGM.clip = BGMList[CurrentStage - 1];
+            BGM.Play();
+            StartCoroutine(BGMFade(true));
+
             ViewManager.TX_BG.mainTexture = BGList[CurrentStage - 1];
             ViewManager.TX_Ground.mainTexture = GroundList[CurrentStage - 1];
             ViewManager.TX_BG.GetComponent<TweenColor>().PlayReverse();
         }
+        yield break;
+    }
 
+    IEnumerator BGMFade(bool isIn)
+    {
+        float upvalue = 0.03f;
+        for (float i = 0; i < 1; i += upvalue)
+        {
+            BGM.volume += isIn ? upvalue : -upvalue;
+            yield return null;
+        }
         yield break;
     }
 
@@ -241,12 +270,14 @@ public class IG_Manager : MonoBehaviour
     {
         IsPause = false;
         IsStart = true;
+        BGM.clip = BGMList[0];
+        BGM.Play();
         ViewManager.Popup(IG_ViewManager.PopupType.Start, false);
     }
 
     public void OnClick_Pause()
     {
-        IsPause = true;
+        Pause(true);
         ViewManager.Popup(IG_ViewManager.PopupType.Pause, true);
     }
 
@@ -274,7 +305,7 @@ public class IG_Manager : MonoBehaviour
 
     public void OnClick_Continuos()
     {
-        IsPause = false;
+        Pause(false);
         ViewManager.Popup(IG_ViewManager.PopupType.Pause, false);
     }
 }

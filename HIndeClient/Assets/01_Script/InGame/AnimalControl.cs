@@ -9,6 +9,8 @@ public class AnimalControl : MonoBehaviour
         Jump = 0,
         Die = 1,
         Change = 2,
+        Collide = 3,
+        GetCoin = 4,
     }
     /*
      애니메이션 상황
@@ -72,6 +74,7 @@ public class AnimalControl : MonoBehaviour
             rigid.gravityScale = GravityScale;
             IsUp = true;
         }
+        PlaySound(sound.Change);
     }
 
     public void Jump()
@@ -102,7 +105,10 @@ public class AnimalControl : MonoBehaviour
         switch (index)
         {
             case sound.Jump:
-                AnimalAudio.clip = SoundList[(int)sound.Jump];
+            case sound.Change:
+            case sound.Collide:
+            case sound.GetCoin:
+                AnimalAudio.clip = SoundList[(int)index];
                 break;
         }
         AnimalAudio.Play();
@@ -154,6 +160,7 @@ public class AnimalControl : MonoBehaviour
         {
             case Common.GetType.Gold:
                 IG_Manager.Instance.CurrentGold += data.Value;
+                PlaySound(sound.GetCoin);
                 break;
 
             case Common.GetType.HP:
@@ -168,6 +175,7 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollide_Build(IG_Object col)
     {
+        PlaySound(sound.Collide);
         if (IsRunning)
         {
             col.CollideGone();

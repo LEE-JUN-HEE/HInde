@@ -59,7 +59,7 @@ public class IG_Manager : MonoBehaviour
         IsPause = true;
         IsStaging = false;
         IsStart = false;
-        CurrentStage = 1;
+        CurrentStage = 3;
 
         AnimalCon.Init();
         RingMaCon.Init();

@@ -8,7 +8,7 @@ using System.Collections;
  * IG_ObjectPool에 의해 관리된다.
  */
 
-public class IG_Object : MonoBehaviour 
+public class IG_Object : MonoBehaviour
 {
     public Data_Object Data;
     public Common.ObjectType Type;
@@ -19,14 +19,11 @@ public class IG_Object : MonoBehaviour
 
     public UISprite SP_Image;
 
-    public bool Debugb;
-
 
     public bool IsColandFly { get; set; }
 
     void Update()
     {
-        Debugb = IsColandFly;
         if (Data == null) { Clear(); return; }
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;
 
@@ -37,18 +34,6 @@ public class IG_Object : MonoBehaviour
         if (IsColandFly && curXPos > Common.FlyClear_Pos_x)
         {
             Clear();
-        }
-    }
-
-    void FlyObejctCheck()
-    {
-        if (Type == Common.ObjectType.FlyBuild)
-        {
-            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime);
-        }
-        else if (Type == Common.ObjectType.FlyGet)
-        {
-            transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime);
         }
     }
 
@@ -76,7 +61,7 @@ public class IG_Object : MonoBehaviour
                 break;
 
             case Common.PosType.Down_Fly:
-                pos_y = - Common.Fly_pos_y;
+                pos_y = -Common.Fly_pos_y;
                 break;
 
             case Common.PosType.Up_Fly:
@@ -105,7 +90,7 @@ public class IG_Object : MonoBehaviour
             tag = Common.Tag_Build;
             SetFly(data as Data_FlyObject);
         }
-        else if(data is Data_FlyGetObject)
+        else if (data is Data_FlyGetObject)
         {
             Type = Common.ObjectType.FlyGet;
             tag = Common.Tag_Get;
@@ -119,7 +104,7 @@ public class IG_Object : MonoBehaviour
     public void Clear()
     {
         IG_Manager.Instance.ObjectPool.ReturnObject(this);
-        Data = null; 
+        Data = null;
         SP_Image.gameObject.SetActive(true);
         Flow.enabled = true;
         Rigid.isKinematic = true;
@@ -134,9 +119,15 @@ public class IG_Object : MonoBehaviour
         SP_Image.gameObject.SetActive(false);
     }
 
-    //public void CollideFlyClear()
-    //{
-    //}
+    public void PlaySound(AnimalControl.sound index)
+    {
+        switch (index)
+        {
+            case AnimalControl.sound.GetCoin:
+            case AnimalControl.sound.Collide:
+                break;
+        }
+    }
 
     void SetBuild()
     {
@@ -159,7 +150,6 @@ public class IG_Object : MonoBehaviour
                 SP_Image.spriteName = Common.Sprite_Fly;
                 break;
         }
-        
         //타입 맞춰서 이미지 늘리기, 콜라이더 조정
     }
 
@@ -169,10 +159,12 @@ public class IG_Object : MonoBehaviour
         {
             case Common.GetType.Gold:
                 SP_Image.spriteName = Common.Sprite_Gold;
+                SetImage(15, 15);
                 break;
 
             case Common.GetType.Speed:
                 SP_Image.spriteName = Common.Sprite_Booster;
+                SetImage(50, 50);
                 break;
         }
         //이미지 변경
@@ -199,6 +191,25 @@ public class IG_Object : MonoBehaviour
         //이미지 변경
     }
 
+    void SetImage(int width, int height)
+    {
+        SP_Image.width = width;
+        SP_Image.height = height;
+        Col.size = new Vector2(width, height);
+    }
+
+
+    void FlyObejctCheck()
+    {
+        if (Type == Common.ObjectType.FlyBuild)
+        {
+            transform.Translate((Data as Data_FlyObject).Direction * Time.fixedDeltaTime);
+        }
+        else if (Type == Common.ObjectType.FlyGet)
+        {
+            transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime);
+        }
+    }
     public void CollideGone()
     {
         Flow.enabled = false;

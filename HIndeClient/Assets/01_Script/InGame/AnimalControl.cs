@@ -35,7 +35,7 @@ public class AnimalControl : MonoBehaviour
     public AudioSource AnimalAudio;
     public float JumpForce = 0;
     public float GravityScale = 0;
-    Animator anim;
+    public Animator anim;
     Rigidbody2D rigid;
 
     public void Init()
@@ -48,7 +48,7 @@ public class AnimalControl : MonoBehaviour
         IsJumping = false;
 
         //temp
-        anim.Play("Walk");
+        anim.Play("01_Run");
     }
 
     void Update()
@@ -63,15 +63,19 @@ public class AnimalControl : MonoBehaviour
         if (IsUp)
         {
             //temp
-            transform.localRotation = Quaternion.identity;
-            transform.Rotate(180, 0, 0);
+            //transform.localRotation = Quaternion.identity;
+            transform.localPosition= new Vector3(transform.localPosition.x, -130, transform.localPosition.z);
             rigid.gravityScale = -GravityScale;
+            anim.SetTrigger("DownTurn");
             IsUp = false;
         }
         else
         {
-            transform.localRotation = Quaternion.identity;
+            //transform.localRotation = Quaternion.identity;
+            transform.localPosition= new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
+            
             rigid.gravityScale = GravityScale;
+            anim.SetTrigger("TopTurn");
             IsUp = true;
         }
         PlaySound(sound.Change);
@@ -81,6 +85,7 @@ public class AnimalControl : MonoBehaviour
     {
         if (IsJumping) return;
 
+        anim.SetTrigger("Jump");
         PlaySound(sound.Jump);
         IsJumping = true;
         rigid.velocity = new Vector2(0, IsUp ? JumpForce : -JumpForce);
@@ -92,7 +97,7 @@ public class AnimalControl : MonoBehaviour
     public void Running()
     {
         //temp
-        anim.SetTrigger("Run");
+        anim.SetTrigger("Booster");
     }
 
     public void Die()
@@ -149,7 +154,10 @@ public class AnimalControl : MonoBehaviour
         IsJumping = false;
 
         //temp
-        anim.Play("Walk");
+        if (IsRunning == false && IsUp)
+            anim.SetTrigger("ReturnTop");
+        else
+            anim.SetTrigger("ReturnDown");
     }
 
     void OnCollide_Get(IG_Object col)
@@ -184,6 +192,7 @@ public class AnimalControl : MonoBehaviour
         else
         {
             IG_Manager.Instance.AnimalStop(Common.StopTime);
+            anim.SetBool("Hurt", true);
         }
     }
 
@@ -198,6 +207,7 @@ public class AnimalControl : MonoBehaviour
         else
         {
             IG_Manager.Instance.AnimalStop(Common.WebStopTime);
+            anim.SetBool("Hurt", true);
         }
         //IG_Manager.Instance.GameOver();
     }

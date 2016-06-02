@@ -200,6 +200,7 @@ public class IG_Manager : MonoBehaviour
     {
         SpeedRate = BasicSpeedRate;
         AnimalCon.IsStopped = false;
+        AnimalCon.anim.SetBool("Hurt", false);
     }
 
     public void AnimalRun(float duration)
@@ -208,6 +209,7 @@ public class IG_Manager : MonoBehaviour
         {
             //CurSpeedRate = SpeedRate;
             SpeedRate = Common.RunSpeedRate;
+            AnimalCon.anim.SetTrigger("Booster");
         }
         AnimalCon.IsRunning = true;
         RunStartTime = Time.fixedTime;
@@ -218,6 +220,10 @@ public class IG_Manager : MonoBehaviour
     {
         SpeedRate = BasicSpeedRate;
         AnimalCon.IsRunning = false;
+        if(AnimalCon.IsUp)
+            AnimalCon.anim.SetTrigger("ReturnTop");
+        else
+            AnimalCon.anim.SetTrigger("ReturnDown");
         //Animalcon의 애니메이션 바꿔주는 메소드
     }
 

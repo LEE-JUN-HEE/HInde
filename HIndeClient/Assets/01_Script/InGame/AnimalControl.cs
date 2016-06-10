@@ -37,23 +37,54 @@ public class AnimalControl : MonoBehaviour
     public float GravityScale = 0;
     public Animator anim;
     Rigidbody2D rigid;
+    CircleCollider2D col;
+    bool isflip = false;
 
     public void Init()
     {
         anim = this.GetComponent<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
+        col = this.GetComponent<CircleCollider2D>();
         IsUp = true;
         IsPower = false;
         IsStopped = false;
         IsJumping = false;
 
-        //temp
-        anim.Play("01_Run");
     }
 
     void Update()
     {
         anim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
+
+        update_flip();
+    }
+
+    void update_flip()
+    {
+        if (isflip == false) return;
+        Vector3 lp = transform.localPosition;
+        if (IsUp)
+        {
+            transform.localPosition = new Vector3(lp.x, lp.y + 10, lp.z);
+
+            if (transform.localPosition.y > 100)
+            {
+                isflip = false;
+                col.enabled = true;
+                rigid.gravityScale = GravityScale;
+            }
+        }
+        else
+        {
+            transform.localPosition = new Vector3(lp.x, lp.y - 10, lp.z);
+
+            if (transform.localPosition.y < -100)
+            {
+                isflip = false;
+                col.enabled = true;
+                rigid.gravityScale = -GravityScale;
+            }
+        }
     }
 
     public void Flip()
@@ -64,26 +95,30 @@ public class AnimalControl : MonoBehaviour
         {
             //temp
             //transform.localRotation = Quaternion.identity;
-            transform.localPosition= new Vector3(transform.localPosition.x, -130, transform.localPosition.z);
-            rigid.gravityScale = -GravityScale;
+            //transform.localPosition = new Vector3(transform.localPosition.x, -130, transform.localPosition.z);
+            rigid.gravityScale = 0;
             anim.SetTrigger("DownTurn");
+            col.enabled = false;
             IsUp = false;
+            isflip = true;
         }
         else
         {
             //transform.localRotation = Quaternion.identity;
-            transform.localPosition= new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
+            //transform.localPosition= new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
             
-            rigid.gravityScale = GravityScale;
+            rigid.gravityScale = 0;
             anim.SetTrigger("TopTurn");
             IsUp = true;
+            col.enabled = false;
+            isflip = true;
         }
         PlaySound(sound.Change);
     }
 
     public void Jump()
     {
-        if (IsJumping) return;
+        if (IsJumping || isflip) return;
 
         anim.SetTrigger("Jump");
         PlaySound(sound.Jump);

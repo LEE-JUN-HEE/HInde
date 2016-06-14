@@ -8,6 +8,7 @@ public class HL_Manager : MonoBehaviour
 
     public GameObject LobbyUI;
     public GameObject Animal;
+    public Animator RingMaster;
     public GameObject GO_ExitPopup;
 
     bool isPopup = false;
@@ -31,6 +32,7 @@ public class HL_Manager : MonoBehaviour
     IEnumerator StartLoad()
     {
         LobbyUI.SetActive(false);
+        StartCoroutine(StartChase());
         while (Camera.main.WorldToViewportPoint(Animal.transform.position).x < 1.2)
         {
             Animal.transform.Translate(2.5f * Time.fixedDeltaTime, 0, 0);
@@ -38,6 +40,22 @@ public class HL_Manager : MonoBehaviour
         }
 
         //페이드아웃 넣어도되고
+        yield break;
+    }
+
+    IEnumerator StartChase()
+    {
+        while (Camera.main.WorldToViewportPoint(Animal.transform.position).x < 0.6)
+            yield return null;
+
+        RingMaster.Play("Start");
+        yield return new WaitForSeconds(1.0f);
+        while (Camera.main.WorldToViewportPoint(RingMaster.transform.position).x < 1.2)
+        {
+            RingMaster.transform.Translate(3 * Time.fixedDeltaTime, 0, 0);
+            yield return null;
+        }
+
         SceneManager.LoadScene("Loading");
         yield break;
     }

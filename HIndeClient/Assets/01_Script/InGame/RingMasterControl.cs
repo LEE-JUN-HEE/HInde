@@ -8,10 +8,13 @@ public class RingMasterControl : MonoBehaviour
     public bool IsView;
     public Transform FirePos;
     public Rigidbody2D WebProj;
+    public Animator anim;
 
     public void Init()
     {
         IsView = false;
+        anim = GetComponent<Animator>();
+        anim.Play("Run");
         StartCoroutine(TempFire());
     }
 
@@ -20,13 +23,7 @@ public class RingMasterControl : MonoBehaviour
         if (IG_Manager.Instance.IsPause || IG_Manager.Instance.IsGameOver) return;
 
         IsView = Camera.main.WorldToScreenPoint(transform.position).x > 0;
-
-        //if (IG_Manager.Instance.AnimalCon.IsRunning)
-        //{
-        //    transform.Translate(new Vector2(velocity - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
-        //    return;
-        //}
-
+        
         if (IG_Manager.Instance.AnimalCon.IsStopped == false)
         {
             transform.Translate(new Vector2(velocity - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
@@ -35,6 +32,11 @@ public class RingMasterControl : MonoBehaviour
         {
             transform.Translate(new Vector2(velocity * RageSpeedRate, 0) * Time.fixedDeltaTime, Space.World);
         }
+    }
+
+    public void End()
+    {
+        anim.Play("End");
     }
 
     public void FireWeb()

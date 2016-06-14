@@ -1,0 +1,294 @@
+fileFormatVersion: 2
+guid: 785dc346608f5cb49ab1b1f6aa5e2f9e
+timeCreated: 1465869200
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 03_EndLaugh_0
+    21300002: 03_EndLaugh_1
+    21300004: 03_EndLaugh_2
+    21300006: 03_EndLaugh_3
+    21300008: 03_EndLaugh_4
+    21300010: 03_EndLaugh_5
+    21300012: 03_EndLaugh_6
+    21300014: 03_EndLaugh_7
+    21300016: 03_EndLaugh_8
+    21300018: 03_EndLaugh_9
+    21300020: 03_EndLaugh_10
+    21300022: 03_EndLaugh_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 1.5
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 03_EndLaugh_0
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 1640
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 130.5}
+        - {x: -50, y: 106.5}
+        - {x: -50, y: -130.5}
+        - {x: 50, y: -130.5}
+        - {x: 50, y: 101.5}
+        - {x: 1, y: 130.5}
+    - name: 03_EndLaugh_1
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 1640
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 130.5}
+        - {x: -50, y: 106.5}
+        - {x: -50, y: -130.5}
+        - {x: 50, y: -130.5}
+        - {x: 50, y: 101.5}
+        - {x: 1, y: 130.5}
+    - name: 03_EndLaugh_2
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 1640
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 130.5}
+        - {x: -50, y: 106.5}
+        - {x: -50, y: -130.5}
+        - {x: 50, y: -130.5}
+        - {x: 50, y: 101.5}
+        - {x: 1, y: 130.5}
+    - name: 03_EndLaugh_3
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 1640
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 130.5}
+        - {x: -41, y: 130.5}
+        - {x: -50, y: 106.5}
+        - {x: -50, y: -130.5}
+        - {x: 46, y: -130.5}
+        - {x: 50, y: -124.5}
+        - {x: 50, y: -28.5}
+        - {x: 22, y: 74.5}
+    - name: 03_EndLaugh_4
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 1266
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 77.5}
+        - {x: 2, y: 130.5}
+        - {x: -46, y: 130.5}
+        - {x: -50, y: 100.5}
+        - {x: -50, y: -87.5}
+        - {x: -49, y: -128.5}
+        - {x: -42, y: -130.5}
+        - {x: 37, y: -130.5}
+        - {x: 50, y: -121.5}
+        - {x: 50, y: 34.5}
+    - name: 03_EndLaugh_5
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 1266
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 77.5}
+        - {x: 2, y: 130.5}
+        - {x: -46, y: 130.5}
+        - {x: -50, y: 100.5}
+        - {x: -50, y: -87.5}
+        - {x: -49, y: -128.5}
+        - {x: -42, y: -130.5}
+        - {x: 37, y: -130.5}
+        - {x: 50, y: -121.5}
+        - {x: 50, y: 34.5}
+    - name: 03_EndLaugh_6
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 1263
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: 130.5}
+        - {x: -41, y: 130.5}
+        - {x: -50, y: 103.5}
+        - {x: -50, y: 71.5}
+        - {x: -47, y: 64.5}
+        - {x: -49, y: -129.5}
+        - {x: -44, y: -130.5}
+        - {x: 34, y: -130.5}
+        - {x: 50, y: -107.5}
+        - {x: 50, y: -15.5}
+    - name: 03_EndLaugh_7
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 1263
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 130.5}
+        - {x: -50, y: 103.5}
+        - {x: -50, y: 71.5}
+        - {x: -47, y: 64.5}
+        - {x: -49, y: -129.5}
+        - {x: -48, y: -130.5}
+        - {x: 39, y: -130.5}
+        - {x: 50, y: -123.5}
+        - {x: 50, y: 1.5}
+        - {x: 0, y: 130.5}
+    - name: 03_EndLaugh_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 890
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 130.5}
+        - {x: -41, y: 130.5}
+        - {x: -50, y: 90.5}
+        - {x: -50, y: -130.5}
+        - {x: 36, y: -130.5}
+        - {x: 50, y: -117.5}
+        - {x: 50, y: -25.5}
+    - name: 03_EndLaugh_9
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 890
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 130.5}
+        - {x: -41, y: 130.5}
+        - {x: -50, y: 90.5}
+        - {x: -50, y: -130.5}
+        - {x: 36, y: -130.5}
+        - {x: 50, y: -117.5}
+        - {x: 50, y: -25.5}
+    - name: 03_EndLaugh_10
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 890
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 130.5}
+        - {x: -41, y: 130.5}
+        - {x: -50, y: 90.5}
+        - {x: -50, y: -130.5}
+        - {x: 36, y: -130.5}
+        - {x: 50, y: -117.5}
+        - {x: 50, y: -25.5}
+    - name: 03_EndLaugh_11
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 890
+        width: 100
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 130.5}
+        - {x: -50, y: -130.5}
+        - {x: 44, y: -130.5}
+        - {x: 50, y: -128.5}
+        - {x: 50, y: -21.5}
+        - {x: 5, y: 130.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -9,7 +9,7 @@ public class Common
     static public float WebStopTime = 2.5f;
     static public float RunSpeedRate = 3f;
 
-    static public float BasicPos = 4;
+    static public float BasicPos = 80;
     static public float Fly_pos_y = 200;
     static public float FullObj_y_Size = 400;
     static public float JumpObj_y_Size = 60;

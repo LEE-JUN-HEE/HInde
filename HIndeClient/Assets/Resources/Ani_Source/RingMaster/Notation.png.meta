@@ -1,13 +1,28 @@
 fileFormatVersion: 2
 guid: 4f46aaa11bd439b4c980294678be9929
-timeCreated: 1464770411
+timeCreated: 1465869212
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Notation_0
+    21300002: Notation_1
+    21300004: Notation_2
+    21300006: Notation_3
+    21300008: Notation_4
+    21300010: Notation_5
+    21300012: Notation_6
+    21300014: Notation_7
+    21300016: Notation_8
+    21300018: Notation_9
+    21300020: Notation_10
+    21300022: Notation_11
+    21300024: Notation_12
+    21300026: Notation_13
+    21300028: Notation_14
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -30,7 +45,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,18 +53,315 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1.5
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Notation_0
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 1798
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23.5, y: 40.5}
+        - {x: -22.5, y: 40.5}
+        - {x: -35.5, y: 36.5}
+        - {x: -35.5, y: -21.5}
+        - {x: -26.5, y: -40.5}
+        - {x: -7.5, y: -40.5}
+        - {x: 14.5, y: -35.5}
+        - {x: 35.5, y: -13.5}
+        - {x: 35.5, y: 26.5}
+        - {x: 34.5, y: 28.5}
+    - name: Notation_1
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 1798
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23.5, y: 40.5}
+        - {x: -22.5, y: 40.5}
+        - {x: -35.5, y: 36.5}
+        - {x: -35.5, y: -21.5}
+        - {x: -26.5, y: -40.5}
+        - {x: -7.5, y: -40.5}
+        - {x: 14.5, y: -35.5}
+        - {x: 35.5, y: -13.5}
+        - {x: 35.5, y: 26.5}
+        - {x: 34.5, y: 28.5}
+    - name: Notation_2
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 1798
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23.5, y: 40.5}
+        - {x: -22.5, y: 40.5}
+        - {x: -35.5, y: 36.5}
+        - {x: -35.5, y: -21.5}
+        - {x: -26.5, y: -40.5}
+        - {x: -7.5, y: -40.5}
+        - {x: 14.5, y: -35.5}
+        - {x: 35.5, y: -13.5}
+        - {x: 35.5, y: 26.5}
+        - {x: 34.5, y: 28.5}
+    - name: Notation_3
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 1454
+        width: 76
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21, y: 44}
+        - {x: -35, y: 44}
+        - {x: -38, y: 33}
+        - {x: -38, y: -29}
+        - {x: -28, y: -44}
+        - {x: -16, y: -44}
+        - {x: 17, y: -32}
+        - {x: 38, y: -22}
+        - {x: 38, y: 32}
+    - name: Notation_4
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 1454
+        width: 76
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21, y: 44}
+        - {x: -35, y: 44}
+        - {x: -38, y: 33}
+        - {x: -38, y: -29}
+        - {x: -28, y: -44}
+        - {x: -16, y: -44}
+        - {x: 17, y: -32}
+        - {x: 38, y: -22}
+        - {x: 38, y: 32}
+    - name: Notation_5
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 1454
+        width: 76
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21, y: 44}
+        - {x: -35, y: 44}
+        - {x: -38, y: 33}
+        - {x: -38, y: -29}
+        - {x: -28, y: -44}
+        - {x: -16, y: -44}
+        - {x: 17, y: -32}
+        - {x: 38, y: -22}
+        - {x: 38, y: 32}
+    - name: Notation_6
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 1111
+        width: 93
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27.5, y: 54}
+        - {x: -46.5, y: 46}
+        - {x: -46.5, y: -39}
+        - {x: -44.5, y: -54}
+        - {x: 23.5, y: -54}
+        - {x: 46.5, y: -23}
+        - {x: 46.5, y: 37}
+        - {x: 31.5, y: 54}
+    - name: Notation_7
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 1111
+        width: 93
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27.5, y: 54}
+        - {x: -46.5, y: 46}
+        - {x: -46.5, y: -39}
+        - {x: -44.5, y: -54}
+        - {x: 23.5, y: -54}
+        - {x: 46.5, y: -23}
+        - {x: 46.5, y: 37}
+        - {x: 31.5, y: 54}
+    - name: Notation_8
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 1111
+        width: 93
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27.5, y: 54}
+        - {x: -46.5, y: 46}
+        - {x: -46.5, y: -39}
+        - {x: -44.5, y: -54}
+        - {x: 23.5, y: -54}
+        - {x: 46.5, y: -23}
+        - {x: 46.5, y: 37}
+        - {x: 31.5, y: 54}
+    - name: Notation_9
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 769
+        width: 100
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24, y: 58}
+        - {x: -36, y: 58}
+        - {x: -50, y: 41}
+        - {x: -50, y: -58}
+        - {x: 17, y: -58}
+        - {x: 42, y: -55}
+        - {x: 50, y: -29}
+        - {x: 50, y: 47}
+    - name: Notation_10
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 769
+        width: 100
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24, y: 58}
+        - {x: -36, y: 58}
+        - {x: -50, y: 41}
+        - {x: -50, y: -58}
+        - {x: 17, y: -58}
+        - {x: 42, y: -55}
+        - {x: 50, y: -29}
+        - {x: 50, y: 47}
+    - name: Notation_11
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 769
+        width: 100
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24, y: 58}
+        - {x: -36, y: 58}
+        - {x: -50, y: 41}
+        - {x: -50, y: -58}
+        - {x: 17, y: -58}
+        - {x: 42, y: -55}
+        - {x: 50, y: -29}
+        - {x: 50, y: 47}
+    - name: Notation_12
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 426
+        width: 104
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 60.5}
+        - {x: -52, y: 41.5}
+        - {x: -52, y: -20.5}
+        - {x: -37, y: -60.5}
+        - {x: -19, y: -60.5}
+        - {x: 28, y: -48.5}
+        - {x: 52, y: -19.5}
+        - {x: 52, y: 45.5}
+        - {x: 21, y: 60.5}
+    - name: Notation_13
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 426
+        width: 104
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 60.5}
+        - {x: -52, y: 41.5}
+        - {x: -52, y: -20.5}
+        - {x: -37, y: -60.5}
+        - {x: -19, y: -60.5}
+        - {x: 28, y: -48.5}
+        - {x: 52, y: -19.5}
+        - {x: 52, y: 45.5}
+        - {x: 21, y: 60.5}
+    - name: Notation_14
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 426
+        width: 104
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 60.5}
+        - {x: -52, y: 41.5}
+        - {x: -52, y: -20.5}
+        - {x: -37, y: -60.5}
+        - {x: -19, y: -60.5}
+        - {x: 28, y: -48.5}
+        - {x: 52, y: -19.5}
+        - {x: 52, y: 45.5}
+        - {x: 21, y: 60.5}
     outline: []
   spritePackingTag: 
   userData: 

@@ -56,35 +56,6 @@ public class AnimalControl : MonoBehaviour
     {
         anim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
 
-        update_flip();
-    }
-
-    void update_flip()
-    {
-        if (isflip == false) return;
-        Vector3 lp = transform.localPosition;
-        if (IsUp)
-        {
-            transform.localPosition = new Vector3(lp.x, lp.y + 10, lp.z);
-
-            if (transform.localPosition.y > 100)
-            {
-                isflip = false;
-                col.enabled = true;
-                rigid.gravityScale = GravityScale;
-            }
-        }
-        else
-        {
-            transform.localPosition = new Vector3(lp.x, lp.y - 10, lp.z);
-
-            if (transform.localPosition.y < -100)
-            {
-                isflip = false;
-                col.enabled = true;
-                rigid.gravityScale = -GravityScale;
-            }
-        }
     }
 
     public void Flip()
@@ -94,24 +65,19 @@ public class AnimalControl : MonoBehaviour
         if (IsUp)
         {
             //temp
-            //transform.localRotation = Quaternion.identity;
-            //transform.localPosition = new Vector3(transform.localPosition.x, -130, transform.localPosition.z);
-            rigid.gravityScale = 0;
-            anim.SetTrigger("DownTurn");
-            col.enabled = false;
+            transform.localRotation = Quaternion.identity;
+            transform.localPosition = new Vector3(transform.localPosition.x, -Common.BasicPos, transform.localPosition.z);
+            transform.localRotation = new Quaternion(-180, 0, 0, 0);
+            rigid.gravityScale = -1;
             IsUp = false;
-            isflip = true;
         }
         else
         {
-            //transform.localRotation = Quaternion.identity;
-            //transform.localPosition= new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
-            
-            rigid.gravityScale = 0;
-            anim.SetTrigger("TopTurn");
+            transform.localRotation = Quaternion.identity;
+            transform.localPosition= new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
+            transform.localRotation = new Quaternion(0, 0, 0, 0);
+            rigid.gravityScale = 1;
             IsUp = true;
-            col.enabled = false;
-            isflip = true;
         }
         PlaySound(sound.Change);
     }
@@ -124,20 +90,16 @@ public class AnimalControl : MonoBehaviour
         PlaySound(sound.Jump);
         IsJumping = true;
         rigid.velocity = new Vector2(0, IsUp ? JumpForce : -JumpForce);
-
-        //temp
-        //anim.SetTrigger("Jump");
     }
 
     public void Running()
     {
-        //temp
         anim.SetTrigger("Booster");
     }
 
     public void Die()
     {
-
+        anim.SetBool("Hurt", false);
     }
 
     public void PlaySound(sound index)
@@ -189,10 +151,8 @@ public class AnimalControl : MonoBehaviour
         IsJumping = false;
 
         //temp
-        if (IsRunning == false && IsUp)
-            anim.SetTrigger("ReturnTop");
-        else
-            anim.SetTrigger("ReturnDown");
+        if (IsRunning == false)
+            anim.SetTrigger("Return");
     }
 
     void OnCollide_Get(IG_Object col)

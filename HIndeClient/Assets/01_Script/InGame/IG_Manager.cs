@@ -161,6 +161,8 @@ public class IG_Manager : MonoBehaviour
     public void GameOver()
     {
         IsGameOver = true;
+        RingMaCon.End();
+        AnimalCon.Die();
         ViewManager.Popup(IG_ViewManager.PopupType.GameOver, true);
     }
 
@@ -220,10 +222,7 @@ public class IG_Manager : MonoBehaviour
     {
         SpeedRate = BasicSpeedRate;
         AnimalCon.IsRunning = false;
-        if(AnimalCon.IsUp)
-            AnimalCon.anim.SetTrigger("ReturnTop");
-        else
-            AnimalCon.anim.SetTrigger("ReturnDown");
+        AnimalCon.anim.SetTrigger("Return");
         //Animalcon의 애니메이션 바꿔주는 메소드
     }
 

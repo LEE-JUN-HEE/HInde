@@ -44,19 +44,10 @@ public class InitLoading : MonoBehaviour
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
 
-       
+        Social.localUser.Authenticate(Login);
+
         while (isLoggined == false && isLoginCancel == false)
         {
-            Social.localUser.Authenticate((bool success) =>
-            {
-                isLoggined = success;
-                Debug.Log(success);
-            });
-
-            if (isLoggined == false)
-            {
-                yield return StartCoroutine(LoginPopup());
-            }
             yield return null;
         }
 
@@ -75,20 +66,27 @@ public class InitLoading : MonoBehaviour
         yield break;
     }
 
-    IEnumerator LoginPopup()
+
+    void Login(bool success)
     {
-        isPopup = true;
-        Login_Popup.SetActive(true);
-
-        while (isPopup == true)
-        {
-            yield return null;
-        }
-
-        isPopup = false;
-        Login_Popup.SetActive(false);
-        yield break;
+        isLoggined = success;
+        Login_Popup.SetActive(!isLoggined);
     }
+
+    //IEnumerator LoginPopup(bool success)
+    //{
+    //    isPopup = true;
+    //    Login_Popup.SetActive(true);
+
+    //    while (isPopup == true)
+    //    {
+    //        yield return null;
+    //    }
+
+    //    isPopup = false;
+    //    Login_Popup.SetActive(false);
+    //    yield break;
+    //}
 
     Data_Map ParseMap(string path)
     {
@@ -138,12 +136,13 @@ public class InitLoading : MonoBehaviour
 
     public void OnClick_ReLogin()
     {
-        isPopup = false;
+        Login_Popup.SetActive(false);
+        Social.localUser.Authenticate(Login);
     }
 
     public void OnClick_LoginCancel()
     {
-        isPopup = false;
+        Login_Popup.SetActive(false);
         isLoginCancel = true;
     }
 }

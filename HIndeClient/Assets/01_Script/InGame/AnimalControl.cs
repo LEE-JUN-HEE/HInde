@@ -99,7 +99,7 @@ public class AnimalControl : MonoBehaviour
 
     public void Die()
     {
-        anim.SetBool("Hurt", false);
+        anim.SetBool("Hurt", true);
     }
 
     public void PlaySound(sound index)
@@ -108,12 +108,10 @@ public class AnimalControl : MonoBehaviour
         {
             case sound.Jump:
             case sound.Change:
-            case sound.Collide:
-            case sound.GetCoin:
                 AnimalAudio.clip = SoundList[(int)index];
+                AnimalAudio.Play();
                 break;
         }
-        AnimalAudio.Play();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -150,7 +148,6 @@ public class AnimalControl : MonoBehaviour
     {
         IsJumping = false;
 
-        //temp
         if (IsRunning == false)
             anim.SetTrigger("Return");
     }
@@ -163,7 +160,7 @@ public class AnimalControl : MonoBehaviour
         {
             case Common.GetType.Gold:
                 IG_Manager.Instance.CurrentGold += data.Value;
-                PlaySound(sound.GetCoin);
+                col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
                 break;
 
             case Common.GetType.HP:
@@ -178,7 +175,7 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollide_Build(IG_Object col)
     {
-        PlaySound(sound.Collide);
+        col.PlaySound(sound.Collide, SoundList[(int)sound.Collide]);
         if (IsRunning)
         {
             col.CollideGone();

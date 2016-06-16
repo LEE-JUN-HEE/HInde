@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class IG_ViewManager : MonoBehaviour
 {
@@ -27,8 +28,13 @@ public class IG_ViewManager : MonoBehaviour
     public UISprite SP_WebWarning;
 
     //InGame
-    public UITexture TX_BG;
-    public UITexture TX_Ground;
+    public List<UITexture> TX_BG;
+    public List<UITexture> TX_Ground;
+    public GameObject GO_FrontBG;
+
+    float BackBGDist = 0;
+    float FrontBGDist = 0;
+
     bool isInit = false;
 
     void Start()
@@ -49,7 +55,15 @@ public class IG_ViewManager : MonoBehaviour
     {
         GO_Distance.gameObject.SetActive(!IG_Manager.Instance.RingMaCon.IsView);
         LB_Distance.text = string.Format("{0:0.0} m", (IG_Manager.Instance.AnimalCon.transform.position.x - IG_Manager.Instance.RingMaCon.transform.position.x) * 5);
+    }
 
+    void BGFlowCheck()
+    {
+        //BG
+
+        //Rope
+
+        //FrontBG
     }
 
     public void SetActiveWarning(bool value)

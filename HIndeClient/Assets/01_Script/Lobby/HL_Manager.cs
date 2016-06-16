@@ -12,10 +12,12 @@ public class HL_Manager : MonoBehaviour
     public GameObject GO_ExitPopup;
 
     bool isPopup = false;
+    bool isringmalookright = true;
 
     void Start()
     {
         Instance = this;
+        RingMaster.transform.localRotation = new Quaternion(0, 180, 0, 0);
     }
 
     void Update()
@@ -48,6 +50,8 @@ public class HL_Manager : MonoBehaviour
         while (Camera.main.WorldToViewportPoint(Animal.transform.position).x < 0.6)
             yield return null;
 
+        RingMaster.transform.localRotation = new Quaternion(0, -0, 0, 0);
+        RingMaster.GetComponent<TweenPosition>().enabled = false;
         RingMaster.Play("Start");
         yield return new WaitForSeconds(1.0f);
         while (Camera.main.WorldToViewportPoint(RingMaster.transform.position).x < 1.2)
@@ -58,6 +62,21 @@ public class HL_Manager : MonoBehaviour
 
         SceneManager.LoadScene("Loading");
         yield break;
+    }
+
+    public void RingmaTurn()
+    {
+        if (isringmalookright)
+        {
+            RingMaster.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            RingMaster.GetComponent<TweenPosition>().PlayReverse();
+        }
+        else
+        {
+            RingMaster.transform.localRotation = new Quaternion(0, 180, 0, 0);
+            RingMaster.GetComponent<TweenPosition>().PlayForward();
+        }
+        isringmalookright = !isringmalookright;
     }
 
     public void OnClick_Start()
@@ -87,7 +106,6 @@ public class HL_Manager : MonoBehaviour
 
     public void OnClick_Setting()
     {
-
     }
 
     public void OnClick_ExitApp()
@@ -95,7 +113,7 @@ public class HL_Manager : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnClick_ExitCaccel()
+    public void OnClick_ExitCancel()
     {
         GO_ExitPopup.SetActive(false);
     }

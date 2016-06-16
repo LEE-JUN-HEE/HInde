@@ -119,12 +119,14 @@ public class IG_Object : MonoBehaviour
         SP_Image.gameObject.SetActive(false);
     }
 
-    public void PlaySound(AnimalControl.sound index)
+    public void PlaySound(AnimalControl.sound index, AudioClip clip)
     {
         switch (index)
         {
             case AnimalControl.sound.GetCoin:
             case AnimalControl.sound.Collide:
+                GetComponent<AudioSource>().clip = clip;
+                GetComponent<AudioSource>().Play();
                 break;
         }
     }
@@ -134,20 +136,37 @@ public class IG_Object : MonoBehaviour
         switch ((Data as Data_BuildObject).PosType)
         {
             case Common.PosType.Down_Jump:
+                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DJ);
+                SetImage(42, 42);
+                break;
+
             case Common.PosType.Up_Jump:
-                SP_Image.spriteName = Common.Sprite_Build;
+                SP_Image.spriteName = string.Format("{0}{1}",IG_Manager.Instance.CurrentStage,Common.Sprite_UJ);
+                SetImage(42, 42);
                 break;
 
             case Common.PosType.Up_Full:
+                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UF);
+                //SP_Image.height = (int)Common.FullObj_y_Size;
+                //Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
+                SetImage(64, (int)Common.FullObj_y_Size);
+                break;
+
             case Common.PosType.Down_Full:
-                SP_Image.spriteName = Common.Sprite_Column;
-                SP_Image.height = (int)Common.FullObj_y_Size;
-                Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
+                SP_Image.spriteName = string.Format("{0}{1}",IG_Manager.Instance.CurrentStage,Common.Sprite_DF);
+                //SP_Image.height = (int)Common.FullObj_y_Size;
+                //Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
+                SetImage(64, (int)Common.FullObj_y_Size);
                 break;
 
             case Common.PosType.Up_Fly:
+                Debug.Log("??1");
+                SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
+                break;
+
             case Common.PosType.Down_Fly:
-                SP_Image.spriteName = Common.Sprite_Fly;
+                Debug.Log("??2");
+                SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
                 break;
         }
         //타입 맞춰서 이미지 늘리기, 콜라이더 조정
@@ -172,7 +191,16 @@ public class IG_Object : MonoBehaviour
 
     void SetFly(Data_FlyObject _data)
     {
-        SP_Image.spriteName = Common.Sprite_Fly;
+        switch ((Data as Data_BuildObject).PosType)
+        {
+            case Common.PosType.Up_Fly:
+                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
+                break;
+
+            case Common.PosType.Down_Fly:
+                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
+                break;
+        }
         //이미지 변경
     }
 
@@ -195,9 +223,8 @@ public class IG_Object : MonoBehaviour
     {
         SP_Image.width = width;
         SP_Image.height = height;
-        Col.size = new Vector2(width, height);
+        Col.size = new Vector2(width, height - 10f); // 약간의 완충?
     }
-
 
     void FlyObejctCheck()
     {
@@ -210,6 +237,7 @@ public class IG_Object : MonoBehaviour
             transform.Translate((Data as Data_FlyGetObject).Direction * Time.fixedDeltaTime);
         }
     }
+
     public void CollideGone()
     {
         Flow.enabled = false;

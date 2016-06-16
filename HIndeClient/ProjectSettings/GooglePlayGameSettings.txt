@@ -1,5 +1,5 @@
-lastUpgrade=00932
-proj.pluginVersion=0.9.32
+lastUpgrade=00934
+proj.pluginVersion=0.9.34
 proj.AppId=633994383747
 and.BundleId=com.JohnC.CircusEscape
 proj.classDir=Assets

@@ -10,7 +10,6 @@ using System.Collections;
 public class IG_Flow : MonoBehaviour 
 {
     public float velocity;
-	// Update is called once per frame
     void Awake()
     {
         velocity = Common.BasicVelocity;

@@ -17,7 +17,7 @@ public class GameLoading : MonoBehaviour
 
         while (!scene.isDone)
         {
-            LB_Text.text = scene.progress.ToString();
+            LB_Text.text = string.Format("{0:0.0}%", scene.progress * 100);
             yield return null;
         }
         SceneManager.UnloadScene("Loading");

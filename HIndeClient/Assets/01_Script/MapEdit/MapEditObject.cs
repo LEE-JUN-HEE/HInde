@@ -115,18 +115,18 @@ public class MapEditObject : MonoBehaviour
         Pos_x = transform.localPosition.x;
 
         //이미지, 사이즈
-        SP_Sprite.height = (int)Common.JumpObj_y_Size;
+        //SP_Sprite.height = (int)Common.JumpObj_y_Size;
         switch (objtype)
         {
             case Common.ObjectType.Build:
                 if (postype == Common.PosType.Down_Full || postype == Common.PosType.Up_Full)
                 {
-                    SP_Sprite.spriteName = Common.Sprite_Column;
+                    //SP_Sprite.spriteName = Common.Sprite_Column;
                     SP_Sprite.height = (int)Common.FullObj_y_Size;
                 }
                 else
                 {
-                    SP_Sprite.spriteName = Common.Sprite_Build;
+                    //SP_Sprite.spriteName = Common.Sprite_Build;
                 }
                 velocity = 0;
                 direction = Common.Direction.None;
@@ -150,7 +150,7 @@ public class MapEditObject : MonoBehaviour
                 break;
 
             case Common.ObjectType.FlyBuild:
-                SP_Sprite.spriteName = Common.Sprite_Fly;
+                //SP_Sprite.spriteName = Common.Sprite_Fly;
                 gettype = Common.GetType.None;
                 Value = 0;
                 break;

@@ -36,7 +36,6 @@ public class IG_Manager : MonoBehaviour
     float RunDuration = 0;
     float CurSpeedRate = 0;
 
-
     /* Method */
     void Update()
     {
@@ -59,7 +58,7 @@ public class IG_Manager : MonoBehaviour
         IsPause = true;
         IsStaging = false;
         IsStart = false;
-        CurrentStage = 3;
+        CurrentStage = 1;
 
         AnimalCon.Init();
         RingMaCon.Init();
@@ -231,7 +230,7 @@ public class IG_Manager : MonoBehaviour
         bool FadeOut = CurrentStage <= 3 && IsStart == true;
         if (FadeOut)
         {
-            ViewManager.TX_BG.GetComponent<TweenColor>().PlayForward();
+            ViewManager.TX_BG.ForEach(x=> x.GetComponent<TweenColor>().PlayForward());
         }
         Data_Map ObjectDataList = Local_DB.GetMapData(index);
         for (int i = 0; i < ObjectDataList.Data.Count; i++)
@@ -252,9 +251,9 @@ public class IG_Manager : MonoBehaviour
             BGM.Play();
             StartCoroutine(BGMFade(true));
 
-            ViewManager.TX_BG.mainTexture = BGList[CurrentStage - 1];
-            ViewManager.TX_Ground.mainTexture = GroundList[CurrentStage - 1];
-            ViewManager.TX_BG.GetComponent<TweenColor>().PlayReverse();
+            ViewManager.TX_BG.ForEach(x=> x.mainTexture = BGList[CurrentStage - 1]);
+            ViewManager.TX_Ground.ForEach(x=> x.mainTexture = GroundList[CurrentStage - 1]);
+            ViewManager.TX_BG.ForEach(x=> x.GetComponent<TweenColor>().PlayReverse());
         }
         yield break;
     }

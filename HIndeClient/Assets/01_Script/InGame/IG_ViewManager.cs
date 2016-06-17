@@ -49,6 +49,7 @@ public class IG_ViewManager : MonoBehaviour
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
         LB_Stage.text = string.Format("{0:0} 스테이지", IG_Manager.Instance.CurrentStage);
         DistanceCheck();
+        BGFlowCheck();
     }
 
     void DistanceCheck()
@@ -60,6 +61,25 @@ public class IG_ViewManager : MonoBehaviour
     void BGFlowCheck()
     {
         //BG
+        for(int i = 0; i< 2; i++)
+        {
+            IG_BGLoop loopBG = TX_BG[i].GetComponent<IG_BGLoop>();
+            if (loopBG.isNeedRefresh)
+            {
+                int other = (i == 0) ? 1 : 0;
+
+                loopBG.transform.localPosition = new Vector2(TX_BG[other].transform.localPosition.x + loopBG.offset, 0);
+                loopBG.isNeedRefresh = false;
+            }
+
+            IG_BGLoop loopRope = TX_Ground[i].GetComponent<IG_BGLoop>();
+            if (loopRope.isNeedRefresh)
+            {
+                int other = (i == 0) ? 1 : 0;
+
+                loopRope.transform.localPosition = new Vector2(TX_Ground[other].transform.localPosition.x + loopRope.offset, 0);
+            }
+        }
 
         //Rope
 

@@ -96,7 +96,13 @@ public class HL_Manager : MonoBehaviour
 
     public void OnClick_Rank()
     {
+        if (Social.localUser.authenticated == false)
+        {
+            Debug.Log("Not Login");
+            return;
+        }
 
+        Social.ShowLeaderboardUI();
     }
 
     public void OnClick_Event()

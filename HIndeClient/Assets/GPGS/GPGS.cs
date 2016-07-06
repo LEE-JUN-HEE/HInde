@@ -26,11 +26,11 @@ namespace GPGS
 public static class GPGS
 {
         public const string achievement_a = "CgkIg6OK6LkSEAIQBA"; // <GPGSID>
-        public const string leaderboard_aa = "CgkIg6OK6LkSEAIQAg"; // <GPGSID>
         public const string achievement_aaaaa = "CgkIg6OK6LkSEAIQBQ"; // <GPGSID>
         public const string achievement_aaa = "CgkIg6OK6LkSEAIQAw"; // <GPGSID>
         public const string achievement_aaaaaza = "CgkIg6OK6LkSEAIQBg"; // <GPGSID>
         public const string achievement_aa = "CgkIg6OK6LkSEAIQAQ"; // <GPGSID>
+        public const string leaderboard_testrank = "CgkIg6OK6LkSEAIQAg"; // <GPGSID>
 
 }
 }

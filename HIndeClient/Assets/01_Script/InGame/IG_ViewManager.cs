@@ -49,6 +49,10 @@ public class IG_ViewManager : MonoBehaviour
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
         LB_Stage.text = string.Format("{0:0} 스테이지", IG_Manager.Instance.CurrentStage);
         DistanceCheck();
+    }
+
+    void FixedUpdate()
+    {
         BGFlowCheck();
     }
 

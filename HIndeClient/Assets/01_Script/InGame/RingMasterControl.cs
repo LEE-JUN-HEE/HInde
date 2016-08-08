@@ -41,16 +41,16 @@ public class RingMasterControl : MonoBehaviour
 
     public void FireWeb()
     {
+        WebProj.gameObject.SetActive(true);
+        WebProj.GetComponent<IG_Projectile>().Fire();
         if (IsView)
         {
             WebProj.transform.position = FirePos.position;
-            WebProj.gameObject.SetActive(true);
             WebProj.AddForce((IG_Manager.Instance.TargetPos.localPosition - IG_Manager.Instance.AnimalCon.transform.localPosition).normalized * 50);
         }
         else
         {
             WebProj.transform.position = IG_Manager.Instance.FirePos.position;
-            WebProj.gameObject.SetActive(true);
             WebProj.AddForce((IG_Manager.Instance.TargetPos.localPosition - IG_Manager.Instance.AnimalCon.transform.localPosition).normalized * 50);
         }
     }

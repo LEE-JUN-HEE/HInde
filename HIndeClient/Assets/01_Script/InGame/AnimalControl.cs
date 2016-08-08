@@ -7,23 +7,11 @@ public class AnimalControl : MonoBehaviour
     public enum sound
     {
         Jump = 0,
-        Die = 1,
+        Booster = 1,
         Change = 2,
         Collide = 3,
         GetCoin = 4,
     }
-    /*
-     애니메이션 상황
-     * Walk(Idle)
-     * RunReady
-     * Run // Hang하다가도 먹으면 자연스럽게 공으로 올라오도록
-     * Flip
-     * Jump
-     * Hang
-     * HangJump
-     * Die
-    */
-    //Data변수 추가
 
     public bool IsUp { get; set; }
     public bool IsJumping { get; set; }
@@ -38,24 +26,23 @@ public class AnimalControl : MonoBehaviour
     public Animator anim;
     Rigidbody2D rigid;
     CircleCollider2D col;
-    bool isflip = false;
 
     public void Init()
     {
         anim = this.GetComponent<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         col = this.GetComponent<CircleCollider2D>();
+        transform.localPosition = new Vector3(transform.localPosition.x, Common.BasicPos, transform.localPosition.z);
+        rigid.gravityScale = 1;
         IsUp = true;
         IsPower = false;
         IsStopped = false;
         IsJumping = false;
-
     }
 
     void Update()
     {
         anim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
-
     }
 
     public void Flip()
@@ -84,7 +71,7 @@ public class AnimalControl : MonoBehaviour
 
     public void Jump()
     {
-        if (IsJumping || isflip) return;
+        if (IsJumping) return;
 
         anim.SetTrigger("Jump");
         PlaySound(sound.Jump);
@@ -99,7 +86,10 @@ public class AnimalControl : MonoBehaviour
 
     public void Die()
     {
-        anim.SetBool("Hurt", true);
+        transform.localPosition = new Vector3(transform.localPosition.x, -Common.BasicPos, transform.localPosition.z);
+        rigid.gravityScale = 0.3f;
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
+        anim.SetTrigger("Catched");
     }
 
     public void PlaySound(sound index)
@@ -116,11 +106,14 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        //Debug.Log(col.collider.name + " / " + col.collider.tag);
         switch (col.collider.tag)
         {
             case "Ground":
                 OnCollide_Ground();
+                break;
+
+            case "End":
+                OnCollide_End();
                 break;
         }
     }
@@ -154,6 +147,8 @@ public class AnimalControl : MonoBehaviour
 
     void OnCollide_Get(IG_Object col)
     {
+        if (IG_Manager.Instance.IsGameOver == true) return;
+
         col.GetClear();
         Data_GetObject data = col.Data as Data_GetObject;
         switch (data.GetType)
@@ -169,12 +164,15 @@ public class AnimalControl : MonoBehaviour
 
             case Common.GetType.Speed:
                 IG_Manager.Instance.AnimalRun(data.Value);
+                col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
                 break;
         }
     }
 
     void OnCollide_Build(IG_Object col)
     {
+        if (IG_Manager.Instance.IsGameOver == true) return;
+
         col.PlaySound(sound.Collide, SoundList[(int)sound.Collide]);
         if (IsRunning)
         {
@@ -191,7 +189,7 @@ public class AnimalControl : MonoBehaviour
     void OnCollide_Web(Collider2D col)
     {
         //잡히는 애니메이션
-        col.gameObject.SetActive(false);
+        col.GetComponent<IG_Projectile>().Collide();
         if (IG_Manager.Instance.AnimalCon.IsRunning)
         {
             IG_Manager.Instance.AnimalRunEnd();
@@ -202,5 +200,13 @@ public class AnimalControl : MonoBehaviour
             anim.SetBool("Hurt", true);
         }
         //IG_Manager.Instance.GameOver();
+    }
+
+    void OnCollide_End()
+    {
+        if (IG_Manager.Instance.IsGameOver == false) return;
+
+        anim.SetTrigger("End");
+        IG_Manager.Instance.GameOver();
     }
 }

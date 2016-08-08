@@ -118,9 +118,10 @@ public class IG_Manager : MonoBehaviour
     {
         if(IsGameOver) return;
 
-        if (RingMaCon.transform.position.x > AnimalCon.transform.position.x)
+        if (RingMaCon.transform.localPosition.x > AnimalCon.transform.localPosition.x - 100)
         {
-            GameOver();
+            IsGameOver = true;
+            AnimalCon.Die();
         }
     }
 
@@ -160,8 +161,8 @@ public class IG_Manager : MonoBehaviour
     public void GameOver()
     {
         IsGameOver = true;
+        StartCoroutine(EndBGMFadeOut());
         RingMaCon.End();
-        AnimalCon.Die();
         ViewManager.Popup(IG_ViewManager.PopupType.GameOver, true);
     }
 
@@ -212,7 +213,10 @@ public class IG_Manager : MonoBehaviour
             SpeedRate = Common.RunSpeedRate;
             AnimalCon.anim.SetTrigger("Booster");
         }
+        if(AnimalCon.IsRunning == false)
+            AnimalCon.transform.localPosition = new Vector3(AnimalCon.transform.localPosition.x, AnimalCon.IsUp ?180f : -180f, AnimalCon.transform.localPosition.z);
         AnimalCon.IsRunning = true;
+
         RunStartTime = Time.fixedTime;
         RunDuration = duration;
     }
@@ -260,12 +264,25 @@ public class IG_Manager : MonoBehaviour
 
     IEnumerator BGMFade(bool isIn)
     {
+        if (IsGameOver == true) yield break;
+
         float upvalue = 0.03f;
         for (float i = 0; i < 1; i += upvalue)
         {
             BGM.volume += isIn ? upvalue : -upvalue;
             yield return null;
         }
+        yield break;
+    }
+
+    IEnumerator EndBGMFadeOut()
+    {
+        while (BGM.volume > 0)
+        {
+            BGM.volume -= 0.15f;
+            yield return null;
+        }
+
         yield break;
     }
 

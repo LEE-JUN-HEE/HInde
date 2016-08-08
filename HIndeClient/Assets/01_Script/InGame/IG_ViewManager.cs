@@ -127,6 +127,7 @@ public class IG_ViewManager : MonoBehaviour
                 LB_Popup_Score.text = string.Format("{0:0.0} M", IG_Manager.Instance.CurrentScore);
                 GO_Pause.SetActive(false);
                 GO_Start.SetActive(false);
+                GO_GameOver.GetComponent<AudioSource>().Play();
                 break;
         }
     }

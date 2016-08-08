@@ -9,6 +9,7 @@ public class HL_Manager : MonoBehaviour
     public GameObject LobbyUI;
     public GameObject Animal;
     public Animator RingMaster;
+    public Animator Elephant;
     public GameObject GO_ExitPopup;
 
     bool isPopup = false;
@@ -17,6 +18,8 @@ public class HL_Manager : MonoBehaviour
     void Start()
     {
         Instance = this;
+        Elephant.Play("00_Hurt");
+        Elephant.SetBool("Hurt", true);
         RingMaster.transform.localRotation = new Quaternion(0, 180, 0, 0);
     }
 
@@ -34,7 +37,10 @@ public class HL_Manager : MonoBehaviour
     IEnumerator StartLoad()
     {
         LobbyUI.SetActive(false);
+        Elephant.SetBool("Hurt", false);
         StartCoroutine(StartChase());
+        StartCoroutine(FadeOutBGM());
+        Animal.GetComponent<AudioSource>().Play();
         while (Camera.main.WorldToViewportPoint(Animal.transform.position).x < 1.2)
         {
             Animal.transform.Translate(2.5f * Time.fixedDeltaTime, 0, 0);
@@ -50,17 +56,29 @@ public class HL_Manager : MonoBehaviour
         while (Camera.main.WorldToViewportPoint(Animal.transform.position).x < 0.6)
             yield return null;
 
+        Animal.GetComponent<AudioSource>().Stop();
+        RingMaster.transform.parent.GetComponent<AudioSource>().Play();
         RingMaster.transform.localRotation = new Quaternion(0, -0, 0, 0);
         RingMaster.GetComponent<TweenPosition>().enabled = false;
         RingMaster.Play("Start");
         yield return new WaitForSeconds(1.0f);
         while (Camera.main.WorldToViewportPoint(RingMaster.transform.position).x < 1.2)
         {
-            RingMaster.transform.Translate(3 * Time.fixedDeltaTime, 0, 0);
+            RingMaster.transform.parent.Translate(3 * Time.fixedDeltaTime, 0, 0);
             yield return null;
         }
 
         SceneManager.LoadScene("Loading");
+        yield break;
+    }
+
+    IEnumerator FadeOutBGM()
+    {
+        while (GetComponent<AudioSource>().volume > 0)
+        {
+            GetComponent<AudioSource>().volume -= 0.05f;
+            yield return null;
+        }
         yield break;
     }
 

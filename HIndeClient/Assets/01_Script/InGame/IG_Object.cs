@@ -123,6 +123,7 @@ public class IG_Object : MonoBehaviour
     {
         switch (index)
         {
+            case AnimalControl.sound.Booster:
             case AnimalControl.sound.GetCoin:
             case AnimalControl.sound.Collide:
                 GetComponent<AudioSource>().clip = clip;
@@ -160,12 +161,10 @@ public class IG_Object : MonoBehaviour
                 break;
 
             case Common.PosType.Up_Fly:
-                Debug.Log("??1");
                 SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
                 break;
 
             case Common.PosType.Down_Fly:
-                Debug.Log("??2");
                 SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
                 break;
         }

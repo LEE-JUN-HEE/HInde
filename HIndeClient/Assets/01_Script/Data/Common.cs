@@ -31,12 +31,12 @@ public class Common
 
     static public string Sprite_UJ = "_UJ_0";
     static public string Sprite_UF = "_UF_0";
-    static public string Sprite_UFly = "_UFly_0";
+    static public string Sprite_UFly = "_UFLY_0";
     static public string Sprite_UTD = "_UTD_0";
 
     static public string Sprite_DJ = "_DJ_0";
     static public string Sprite_DF = "_DF_0";
-    static public string Sprite_DFly = "_DFly_0";
+    static public string Sprite_DFly = "_DFLY_0";
     static public string Sprite_DTU = "_DTU_0";
 
     public enum PosType
@@ -44,11 +44,9 @@ public class Common
         Up_Fly = 0,
         Up_Full = 1,
         Up_Jump,
-        Up_ToDown,
-        Down_Fly = 10,
+        Down_Fly,
         Down_Full,
         Down_Jump,
-        Down_ToUp,
     }
 
     public enum ObjectType
@@ -64,7 +62,6 @@ public class Common
         None,
         Gold,
         Speed,
-        HP,
     }
 
     public enum Direction

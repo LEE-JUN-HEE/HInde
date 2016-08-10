@@ -158,10 +158,6 @@ public class AnimalControl : MonoBehaviour
                 col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
                 break;
 
-            case Common.GetType.HP:
-                //IG_Manager.Instance.CurrentGold += data.Value;
-                break;
-
             case Common.GetType.Speed:
                 IG_Manager.Instance.AnimalRun(data.Value);
                 col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);

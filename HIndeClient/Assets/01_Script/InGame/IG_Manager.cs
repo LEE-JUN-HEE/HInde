@@ -77,15 +77,15 @@ public class IG_Manager : MonoBehaviour
             if (MapQueue.Count == 0)
             {
                 IsStaging = false;
-                if(CurrentStage >= 3)
-                {
+                //if(CurrentStage >= 3)
+                //{
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     CurrentStage += 1;
-                    BasicSpeedRate += 0.1f;
-                }
+                    BasicSpeedRate += 0.3f;
+                //}
 
                 StageChange(CurrentStage);
             }
@@ -98,7 +98,7 @@ public class IG_Manager : MonoBehaviour
             if (MapQueue.Count == 0)
             {
                 IsStaging = false;
-                CurrentStage += (CurrentStage >= 3) ? 0 : 1;
+                CurrentStage += 1;//(CurrentStage >= 3) ? 0 : 1;
                 StageChange(CurrentStage);
             }
         }
@@ -236,14 +236,21 @@ public class IG_Manager : MonoBehaviour
         {
             ViewManager.TX_BG.ForEach(x=> x.GetComponent<TweenColor>().PlayForward());
         }
-        Data_Map ObjectDataList = Local_DB.GetMapData(index);
-        for (int i = 0; i < ObjectDataList.Data.Count; i++)
+
+        for (int i = 0; i < 20 + 15 * index; i++)
         {
             IG_Object obj = ObjectPool.GetObejct();
-            obj.SetData(ObjectDataList.Data[i]);
+            obj.SetData(CreateMap(i));
             MapQueue.Enqueue(obj);
-            yield return null;
         }
+            //Data_Map ObjectDataList = Local_DB.GetMapData(index);
+            //for (int i = 0; i < ObjectDataList.Data.Count; i++)
+            //{
+            //    IG_Object obj = ObjectPool.GetObejct();
+            //    obj.SetData(ObjectDataList.Data[i]);
+            //    MapQueue.Enqueue(obj);
+            //    yield return null;
+            //}
         IsStaging = true;
 
 
@@ -284,6 +291,60 @@ public class IG_Manager : MonoBehaviour
         }
 
         yield break;
+    }
+
+    Data_Object CreateMap(int index)
+    {
+        Data_Object temp;
+
+        int postype = Random.Range(0, 5);
+        int xPos = 600 * index;
+        int objtype = 0;
+
+        int rand = Random.Range(0, 1000);
+        if (rand > 900)
+            objtype = 0;
+        else if (rand > 700)
+            objtype = 1;
+        else
+            objtype = 2;
+
+        float veocity = Random.Range(0.5f, 2f);
+        int direction = Random.Range(0, 2);
+        int gettype = Random.Range(1, 2);
+        int value = Random.Range(1, 10);
+
+        string[] split = new string[7];
+        split[0] = postype.ToString();
+        split[1] = xPos.ToString();
+        split[2] = objtype.ToString();
+        split[3] = veocity.ToString();
+        split[4] = direction.ToString();
+        split[5] = gettype.ToString();
+        split[6] = value.ToString();
+
+        switch ((Common.ObjectType)objtype)
+        {
+            case Common.ObjectType.Get:
+                temp = new Data_GetObject(split);
+                break;
+            case Common.ObjectType.Build:
+                temp = new Data_BuildObject(split);
+                break;
+            case Common.ObjectType.FlyBuild:
+                temp = new Data_FlyObject(split);
+                break;
+            case Common.ObjectType.FlyGet:
+                temp = new Data_FlyGetObject(split);
+                break;
+
+            default:
+                temp = new Data_Object();
+                Debug.LogError("Null DataObject");
+                break;
+        }
+
+        return temp;
     }
 
     /* Handler */

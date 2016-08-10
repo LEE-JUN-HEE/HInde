@@ -160,6 +160,7 @@ public class IG_Object : MonoBehaviour
                 SetImage(64, (int)Common.FullObj_y_Size);
                 break;
 
+            default:
             case Common.PosType.Up_Fly:
                 SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
                 break;
@@ -190,12 +191,13 @@ public class IG_Object : MonoBehaviour
 
     void SetFly(Data_FlyObject _data)
     {
-        switch ((Data as Data_BuildObject).PosType)
+        switch ((Data as Data_FlyObject).PosType)
         {
             case Common.PosType.Up_Fly:
                 SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
                 break;
 
+            default:
             case Common.PosType.Down_Fly:
                 SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
                 break;
@@ -207,6 +209,7 @@ public class IG_Object : MonoBehaviour
     {
         switch ((Data as Data_FlyGetObject).GetType)
         {
+            default:
             case Common.GetType.Gold:
                 SP_Image.spriteName = Common.Sprite_Gold;
                 break;

@@ -168,7 +168,7 @@ public class IG_Manager : MonoBehaviour
         ViewManager.Popup(IG_ViewManager.PopupType.GameOver, true);
         if (Social.localUser.authenticated)
         {
-            Social.ReportScore(12345, GPGS.GPGS.leaderboard_testrank, (bool success) =>
+            Social.ReportScore((long)CurrentScore, GPGS.GPGS.leaderboard_testrank, (bool success) =>
             {
                 Debug.Log(success);
             });

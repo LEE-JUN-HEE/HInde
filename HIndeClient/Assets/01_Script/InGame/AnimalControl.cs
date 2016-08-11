@@ -154,6 +154,7 @@ public class AnimalControl : MonoBehaviour
         Data_GetObject data = col.Data as Data_GetObject;
         switch (data.GetType)
         {
+            default:
             case Common.GetType.Gold:
                 //IG_Manager.Instance.CurrentGold += data.Value;
                 IG_Manager.Instance.CurrentScore += 50;

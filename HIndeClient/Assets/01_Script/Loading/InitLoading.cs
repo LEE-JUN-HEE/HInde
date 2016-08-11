@@ -56,7 +56,7 @@ public class InitLoading : MonoBehaviour
         //
 
         //Admob
-        BannerView banner = new BannerView("ca-app-pub-5325622833123971/8451261244", AdSize.Banner, AdPosition.Bottom);
+        BannerView banner = new BannerView("ca-app-pub-5325622833123971/8451261244", AdSize.Banner, AdPosition.TopLeft);
         AdRequest request = new AdRequest.Builder().Build();
         banner.LoadAd(request);
         banner.Show();

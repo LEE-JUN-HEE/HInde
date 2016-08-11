@@ -24,6 +24,7 @@ public class AnimalControl : MonoBehaviour
     public float JumpForce = 0;
     public float GravityScale = 0;
     public Animator anim;
+    public Animator ballanim;
     Rigidbody2D rigid;
     CircleCollider2D col;
 
@@ -42,7 +43,7 @@ public class AnimalControl : MonoBehaviour
 
     void Update()
     {
-        anim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
+        anim.speed = ballanim.speed = IG_Manager.Instance.IsPause ? 0 : 1;
     }
 
     public void Flip()
@@ -154,7 +155,8 @@ public class AnimalControl : MonoBehaviour
         switch (data.GetType)
         {
             case Common.GetType.Gold:
-                IG_Manager.Instance.CurrentGold += data.Value;
+                //IG_Manager.Instance.CurrentGold += data.Value;
+                IG_Manager.Instance.CurrentScore += 50;
                 col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
                 break;
 

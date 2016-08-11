@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
+using GoogleMobileAds.Api;
 
 
 /*
@@ -29,10 +30,10 @@ public class InitLoading : MonoBehaviour
 
     IEnumerator Loading()
     {
-        //맵 데이터 리스트
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
-        Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        ////맵 데이터 리스트
+        //Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        //Local_DB.MapData.Add(ParseMap("Map/Stage1"));
+        //Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         //
 
         //환경설정
@@ -53,6 +54,12 @@ public class InitLoading : MonoBehaviour
 
         //유저정보 읽어오기(서버 연동이면 서버작업, 로컬이면 로컬작업)
         //
+
+        //Admob
+        BannerView banner = new BannerView("ca-app-pub-5325622833123971/8451261244", AdSize.Banner, AdPosition.Bottom);
+        AdRequest request = new AdRequest.Builder().Build();
+        banner.LoadAd(request);
+        banner.Show();
 
         isComplete = true;
         LB_Text.text = "로딩 완료. 계속하려면 터치하세요";

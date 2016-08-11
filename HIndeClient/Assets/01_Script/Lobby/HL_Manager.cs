@@ -125,7 +125,13 @@ public class HL_Manager : MonoBehaviour
 
     public void OnClick_Event()
     {
+        if (Social.localUser.authenticated == false)
+        {
+            Debug.Log("Not Login");
+            return;
+        }
 
+        Social.ShowAchievementsUI();
     }
 
     public void OnClick_Setting()

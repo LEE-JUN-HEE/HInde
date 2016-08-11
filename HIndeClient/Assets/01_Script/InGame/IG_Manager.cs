@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class IG_Manager : MonoBehaviour
 {
@@ -73,7 +75,7 @@ public class IG_Manager : MonoBehaviour
         if (IsStaging == false) return;
         if (MapQueue.Peek().IsColandFly == true || MapQueue.Peek().Data == null)
         {
-            MapQueue.Dequeue(); 
+            MapQueue.Dequeue();
             if (MapQueue.Count == 0)
             {
                 IsStaging = false;
@@ -83,8 +85,8 @@ public class IG_Manager : MonoBehaviour
                 //}
                 //else
                 //{
-                    CurrentStage += 1;
-                    BasicSpeedRate += 0.3f;
+                CurrentStage += 1;
+                BasicSpeedRate += 0.3f;
                 //}
 
                 StageChange(CurrentStage);
@@ -116,7 +118,7 @@ public class IG_Manager : MonoBehaviour
 
     void GameOverCheck()
     {
-        if(IsGameOver) return;
+        if (IsGameOver) return;
 
         if (RingMaCon.transform.localPosition.x > AnimalCon.transform.localPosition.x - 100)
         {
@@ -134,7 +136,7 @@ public class IG_Manager : MonoBehaviour
 
     void RunCheck()
     {
-        if(AnimalCon.IsRunning == false) return;
+        if (AnimalCon.IsRunning == false) return;
 
         if (RunStartTime + RunDuration < Time.fixedTime)
         {
@@ -155,7 +157,7 @@ public class IG_Manager : MonoBehaviour
         }
     }
 
-    
+
     //////////////////////////////////////////
 
     public void GameOver()
@@ -164,6 +166,13 @@ public class IG_Manager : MonoBehaviour
         StartCoroutine(EndBGMFadeOut());
         RingMaCon.End();
         ViewManager.Popup(IG_ViewManager.PopupType.GameOver, true);
+        if (Social.localUser.authenticated)
+        {
+            Social.ReportScore(12345, GPGS.GPGS.leaderboard_testrank, (bool success) =>
+            {
+                Debug.Log(success);
+            });
+        }
     }
 
     public void StageChange(int index)
@@ -213,8 +222,8 @@ public class IG_Manager : MonoBehaviour
             SpeedRate = Common.RunSpeedRate;
             AnimalCon.anim.SetTrigger("Booster");
         }
-        if(AnimalCon.IsRunning == false)
-            AnimalCon.transform.localPosition = new Vector3(AnimalCon.transform.localPosition.x, AnimalCon.IsUp ?180f : -180f, AnimalCon.transform.localPosition.z);
+        if (AnimalCon.IsRunning == false)
+            AnimalCon.transform.localPosition = new Vector3(AnimalCon.transform.localPosition.x, AnimalCon.IsUp ? 180f : -180f, AnimalCon.transform.localPosition.z);
         AnimalCon.IsRunning = true;
 
         RunStartTime = Time.fixedTime;
@@ -234,23 +243,35 @@ public class IG_Manager : MonoBehaviour
         bool FadeOut = CurrentStage <= 3 && IsStart == true;
         if (FadeOut)
         {
-            ViewManager.TX_BG.ForEach(x=> x.GetComponent<TweenColor>().PlayForward());
+            ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayForward());
         }
+        int max = 10 + 15 * index;
 
-        for (int i = 0; i < 20 + 15 * index; i++)
+        for (int i = 0; i < max; i++)
         {
             IG_Object obj = ObjectPool.GetObejct();
-            obj.SetData(CreateMap(i));
+            if (i % 20 == 0)
+                obj.SetData(CreateBooster(i));
+            else
+                obj.SetData(CreateMap(i));
+
+            if (i % 12 == 0)
+            {
+                IG_Object obj2 = ObjectPool.GetObejct();
+                obj2.SetData(CreateGet(i));
+                MapQueue.Enqueue(obj2);
+            }
+
             MapQueue.Enqueue(obj);
         }
-            //Data_Map ObjectDataList = Local_DB.GetMapData(index);
-            //for (int i = 0; i < ObjectDataList.Data.Count; i++)
-            //{
-            //    IG_Object obj = ObjectPool.GetObejct();
-            //    obj.SetData(ObjectDataList.Data[i]);
-            //    MapQueue.Enqueue(obj);
-            //    yield return null;
-            //}
+        //Data_Map ObjectDataList = Local_DB.GetMapData(index);
+        //for (int i = 0; i < ObjectDataList.Data.Count; i++)
+        //{
+        //    IG_Object obj = ObjectPool.GetObejct();
+        //    obj.SetData(ObjectDataList.Data[i]);
+        //    MapQueue.Enqueue(obj);
+        //    yield return null;
+        //}
         IsStaging = true;
 
 
@@ -262,9 +283,9 @@ public class IG_Manager : MonoBehaviour
             BGM.Play();
             StartCoroutine(BGMFade(true));
 
-            ViewManager.TX_BG.ForEach(x=> x.mainTexture = BGList[CurrentStage - 1]);
-            ViewManager.TX_Ground.ForEach(x=> x.mainTexture = GroundList[CurrentStage - 1]);
-            ViewManager.TX_BG.ForEach(x=> x.GetComponent<TweenColor>().PlayReverse());
+            ViewManager.TX_BG.ForEach(x => x.mainTexture = BGList[CurrentStage - 1]);
+            ViewManager.TX_Ground.ForEach(x => x.mainTexture = GroundList[CurrentStage - 1]);
+            ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayReverse());
         }
         yield break;
     }
@@ -301,18 +322,129 @@ public class IG_Manager : MonoBehaviour
         int xPos = 600 * index;
         int objtype = 0;
 
-        int rand = Random.Range(0, 1000);
-        if (rand > 900)
-            objtype = 0;
-        else if (rand > 700)
-            objtype = 1;
-        else
-            objtype = 2;
+        //int rand = Random.Range(0, 1000);
+        //if (rand > 900)
+        //    objtype = 0;
+        //else if (rand > 700)
+        //    objtype = 1;
+        //else
+        //    objtype = 2;
+        objtype = Random.Range(1, 2);
 
         float veocity = Random.Range(0.5f, 2f);
         int direction = Random.Range(0, 2);
         int gettype = Random.Range(1, 2);
         int value = Random.Range(1, 10);
+
+        string[] split = new string[7];
+        split[0] = postype.ToString();
+        split[1] = xPos.ToString();
+        split[2] = objtype.ToString();
+        split[3] = veocity.ToString();
+        split[4] = direction.ToString();
+        split[5] = gettype.ToString();
+        split[6] = value.ToString();
+
+        switch ((Common.ObjectType)objtype)
+        {
+            case Common.ObjectType.Get:
+                temp = new Data_GetObject(split);
+                break;
+            case Common.ObjectType.Build:
+                temp = new Data_BuildObject(split);
+                break;
+            case Common.ObjectType.FlyBuild:
+                temp = new Data_FlyObject(split);
+                break;
+            case Common.ObjectType.FlyGet:
+                temp = new Data_FlyGetObject(split);
+                break;
+
+            default:
+                temp = new Data_Object();
+                Debug.LogError("Null DataObject");
+                break;
+        }
+
+        return temp;
+    }
+
+    Data_Object CreateGet(int index)
+    {
+        Data_Object temp;
+
+        int postype = Random.Range(0, 5);
+        int xPos = 600 * index + 200;
+        int objtype = 0;
+
+        //int rand = Random.Range(0, 1000);
+        //if (rand > 900)
+        //    objtype = 0;
+        //else if (rand > 700)
+        //    objtype = 1;
+        //else
+        //    objtype = 2;
+        objtype = 3;
+
+        float veocity = Random.Range(0.5f, 2f);
+        int direction = Random.Range(0, 2);
+        int gettype = Random.Range(1, 2);
+        int value = 3;
+
+        string[] split = new string[7];
+        split[0] = postype.ToString();
+        split[1] = xPos.ToString();
+        split[2] = objtype.ToString();
+        split[3] = veocity.ToString();
+        split[4] = direction.ToString();
+        split[5] = gettype.ToString();
+        split[6] = value.ToString();
+
+        switch ((Common.ObjectType)objtype)
+        {
+            case Common.ObjectType.Get:
+                temp = new Data_GetObject(split);
+                break;
+            case Common.ObjectType.Build:
+                temp = new Data_BuildObject(split);
+                break;
+            case Common.ObjectType.FlyBuild:
+                temp = new Data_FlyObject(split);
+                break;
+            case Common.ObjectType.FlyGet:
+                temp = new Data_FlyGetObject(split);
+                break;
+
+            default:
+                temp = new Data_Object();
+                Debug.LogError("Null DataObject");
+                break;
+        }
+
+        return temp;
+    }
+
+    Data_Object CreateBooster(int index)
+    {
+        Data_Object temp;
+
+        int postype = Random.Range(0, 5);
+        int xPos = 600 * index;
+        int objtype = 0;
+
+        //int rand = Random.Range(0, 1000);
+        //if (rand > 900)
+        //    objtype = 0;
+        //else if (rand > 700)
+        //    objtype = 1;
+        //else
+        //    objtype = 2;
+        objtype = 0;
+
+        float veocity = Random.Range(0.5f, 2f);
+        int direction = Random.Range(0, 2);
+        int gettype = 2;
+        int value = 3;
 
         string[] split = new string[7];
         split[0] = postype.ToString();

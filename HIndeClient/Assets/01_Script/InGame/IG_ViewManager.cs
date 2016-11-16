@@ -16,11 +16,14 @@ public class IG_ViewManager : MonoBehaviour
     public GameObject GO_Pause;
     public GameObject GO_GameOver;
     public GameObject GO_Distance;
+    public PN_Help HelpUI;
 
     public UILabel LB_Score;
     public UILabel LB_Gold;
     public UILabel LB_Stage;
+    public UILabel LB_StageAlert;
     public UILabel LB_Distance;
+    public UILabel LB_StartInfo;
 
     public UILabel LB_Popup_Score;
     public UILabel LB_Popup_Gold;
@@ -45,9 +48,10 @@ public class IG_ViewManager : MonoBehaviour
     void Update()
     {
         if (isInit == false) return;
-        LB_Score.text = string.Format("{0:0.0}", IG_Manager.Instance.CurrentScore);
+        LB_Score.text = string.Format("{0}", (int)IG_Manager.Instance.CurrentScore);
         LB_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
-        LB_Stage.text = string.Format("{0:0} 스테이지", IG_Manager.Instance.CurrentStage);
+        LB_Stage.text = string.Format("{0:0} 단계", IG_Manager.Instance.CurrentStage + 1);
+        LB_StageAlert.text = string.Format("{0:0} 단계", IG_Manager.Instance.CurrentStage + 1);
         DistanceCheck();
     }
 
@@ -97,6 +101,7 @@ public class IG_ViewManager : MonoBehaviour
 
     public void Init()
     {
+        LB_StartInfo.text = string.Format("총 탈출 회수 : {0}회\n단장 거리 보너스 : x {1}", Common.Playcnt30, Mathf.Min(Common.Playcnt30, 30));
         Popup(PopupType.Start, true);
         isInit = true;
     }
@@ -124,7 +129,7 @@ public class IG_ViewManager : MonoBehaviour
                 GO_GameOver.transform.parent.gameObject.SetActive(isOpen);
                 GO_GameOver.SetActive(isOpen);
                 LB_Popup_Gold.text = ((int)IG_Manager.Instance.CurrentGold).ToString("D");
-                LB_Popup_Score.text = string.Format("{0:0.0} M", IG_Manager.Instance.CurrentScore);
+                LB_Popup_Score.text = string.Format("{0} M", (int)IG_Manager.Instance.CurrentScore);
                 GO_Pause.SetActive(false);
                 GO_Start.SetActive(false);
                 GO_GameOver.GetComponent<AudioSource>().Play();

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Common
 {
+    static public int Playcnt30 = 0;
+    static public int tutorial = 0;
+
     static public float BasicVelocity = 1;
     static public float StopTime = 1.5f;
     static public float WebStopTime = 2.5f;
@@ -29,7 +32,7 @@ public class Common
     static public string Sprite_Gold = "Item_coin";
     static public string Sprite_Booster = "Item_booster";
 
-    static public string Sprite_UJ = "_UJ_0";
+    static public string Sprite_UJ = "_UJ_";
     static public string Sprite_UF = "_UF_0";
     static public string Sprite_UFly = "_UFLY_0";
     static public string Sprite_UTD = "_UTD_0";

@@ -9,10 +9,13 @@ public class RingMasterControl : MonoBehaviour
     public Transform FirePos;
     public Rigidbody2D WebProj;
     public Animator anim;
+    public float initxpos = -20000f;
+    public float normalxpos = -1000f;
 
     public void Init()
     {
         IsView = false;
+        transform.localPosition = new Vector2(initxpos + normalxpos * Mathf.Min(Common.Playcnt30, 30) , transform.localPosition.y);
         anim = GetComponent<Animator>();
         anim.Play("Run");
         StartCoroutine(TempFire());
@@ -26,7 +29,7 @@ public class RingMasterControl : MonoBehaviour
         
         if (IG_Manager.Instance.AnimalCon.IsStopped == false)
         {
-            transform.Translate(new Vector2(velocity - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
+            transform.Translate(new Vector2((velocity * IG_Manager.Instance.BasicSpeedRate)  - (Common.BasicVelocity * IG_Manager.Instance.SpeedRate), 0) * Time.fixedDeltaTime, Space.World);
         }
         else
         {

@@ -60,13 +60,19 @@ public class IG_Manager : MonoBehaviour
         IsPause = true;
         IsStaging = false;
         IsStart = false;
-        CurrentStage = 1;
+        CurrentStage = 0;
 
         AnimalCon.Init();
         RingMaCon.Init();
         ViewManager.Init();
         ObjectPool.Init();
-        StageChange(CurrentStage);
+        StageChange(CurrentStage + 1);
+        if (Common.tutorial == 1)
+        {
+            ViewManager.HelpUI.Show();
+            PlayerPrefs.SetInt("Tuto", --Common.tutorial);
+            PlayerPrefs.Save();
+        }
     }
 
     void StageCheck()
@@ -86,10 +92,10 @@ public class IG_Manager : MonoBehaviour
                 //else
                 //{
                 CurrentStage += 1;
-                BasicSpeedRate += 0.3f;
                 //}
 
-                StageChange(CurrentStage);
+                StageChange(CurrentStage + 1);
+                ViewManager.LB_StageAlert.GetComponent<TweenAlpha>().PlayForward();
             }
             return;
         }
@@ -101,7 +107,8 @@ public class IG_Manager : MonoBehaviour
             {
                 IsStaging = false;
                 CurrentStage += 1;//(CurrentStage >= 3) ? 0 : 1;
-                StageChange(CurrentStage);
+                StageChange(CurrentStage + 1);
+                ViewManager.LB_StageAlert.GetComponent<TweenAlpha>().PlayForward();
             }
         }
     }
@@ -163,12 +170,14 @@ public class IG_Manager : MonoBehaviour
     public void GameOver()
     {
         IsGameOver = true;
+        PlayerPrefs.SetInt("PlayCnt", ++Common.Playcnt30);
+        PlayerPrefs.Save();
         StartCoroutine(EndBGMFadeOut());
         RingMaCon.End();
         ViewManager.Popup(IG_ViewManager.PopupType.GameOver, true);
         if (Social.localUser.authenticated)
         {
-            Social.ReportScore((long)CurrentScore, GPGS.GPGS.leaderboard_testrank, (bool success) =>
+            Social.ReportScore((long)CurrentScore, GPGS.GPGS.leaderboard_, (bool success) =>
             {
                 Debug.Log(success);
             });
@@ -178,6 +187,8 @@ public class IG_Manager : MonoBehaviour
     public void StageChange(int index)
     {
         StartCoroutine(maploading(index));
+        BasicSpeedRate += 0.15f;
+        SpeedRate = BasicSpeedRate;
         //비동기로 맵 로딩, 배경바꾸기
     }
 
@@ -219,7 +230,7 @@ public class IG_Manager : MonoBehaviour
         if (AnimalCon.IsRunning == false)
         {
             //CurSpeedRate = SpeedRate;
-            SpeedRate = Common.RunSpeedRate;
+            SpeedRate = Common.RunSpeedRate * BasicSpeedRate;
             AnimalCon.anim.SetTrigger("Booster");
         }
         if (AnimalCon.IsRunning == false)
@@ -240,11 +251,11 @@ public class IG_Manager : MonoBehaviour
 
     IEnumerator maploading(int index) // 맵데이터 로딩
     {
-        bool FadeOut = CurrentStage <= 3 && IsStart == true;
-        if (FadeOut)
-        {
-            ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayForward());
-        }
+        //bool FadeOut = CurrentStage <= 3 && IsStart == true;
+        //if (FadeOut)
+        //{
+        //    ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayForward());
+        //}
         int max = 10 + 15 * index;
 
         for (int i = 0; i < max; i++)
@@ -255,7 +266,7 @@ public class IG_Manager : MonoBehaviour
             else
                 obj.SetData(CreateMap(i));
 
-            if (i % 12 == 0)
+            if (i % 8 == 0)
             {
                 IG_Object obj2 = ObjectPool.GetObejct();
                 obj2.SetData(CreateGet(i));
@@ -274,19 +285,23 @@ public class IG_Manager : MonoBehaviour
         //}
         IsStaging = true;
 
-
-        if (FadeOut)
+        if (IsStart)
         {
             yield return StartCoroutine(BGMFade(false));
             BGM.Stop();
-            BGM.clip = BGMList[CurrentStage - 1];
+            BGM.clip = BGMList[CurrentStage % 3];
             BGM.Play();
             StartCoroutine(BGMFade(true));
-
-            ViewManager.TX_BG.ForEach(x => x.mainTexture = BGList[CurrentStage - 1]);
-            ViewManager.TX_Ground.ForEach(x => x.mainTexture = GroundList[CurrentStage - 1]);
-            ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayReverse());
         }
+
+        //if (FadeOut)
+        //{
+            
+
+        //    ViewManager.TX_BG.ForEach(x => x.mainTexture = BGList[CurrentStage - 1]);
+        //    ViewManager.TX_Ground.ForEach(x => x.mainTexture = GroundList[CurrentStage - 1]);
+        //    ViewManager.TX_BG.ForEach(x => x.GetComponent<TweenColor>().PlayReverse());
+        //}
         yield break;
     }
 
@@ -487,6 +502,7 @@ public class IG_Manager : MonoBehaviour
         BGM.clip = BGMList[0];
         BGM.Play();
         ViewManager.Popup(IG_ViewManager.PopupType.Start, false);
+        ViewManager.LB_StageAlert.GetComponent<TweenAlpha>().PlayForward();
     }
 
     public void OnClick_Pause()
@@ -502,7 +518,7 @@ public class IG_Manager : MonoBehaviour
 
     public void OnClick_Setting()
     {
-        Debug.Log("Setting");
+        ViewManager.HelpUI.Show();
     }
 
     public void OnClick_Retry()
@@ -514,7 +530,7 @@ public class IG_Manager : MonoBehaviour
 
     public void OnClick_Feed()
     {
-        Debug.Log("Feed");
+        ViewManager.HelpUI.Show();
     }
 
     public void OnClick_Continuos()

@@ -137,36 +137,38 @@ public class IG_Object : MonoBehaviour
         switch ((Data as Data_BuildObject).PosType)
         {
             case Common.PosType.Down_Jump:
-                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DJ);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_DJ);
                 SetImage(42, 42);
                 break;
 
             case Common.PosType.Up_Jump:
-                SP_Image.spriteName = string.Format("{0}{1}",IG_Manager.Instance.CurrentStage,Common.Sprite_UJ);
+                SP_Image.spriteName = string.Format("{0}{1}{2}",1 ,Common.Sprite_UJ, Random.Range(0, 2));
                 SetImage(42, 42);
                 break;
 
             case Common.PosType.Up_Full:
-                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UF);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_UF);
                 //SP_Image.height = (int)Common.FullObj_y_Size;
                 //Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
-                SetImage(64, (int)Common.FullObj_y_Size);
+                SetImage(128, (int)Common.FullObj_y_Size);
                 break;
 
             default:
             case Common.PosType.Down_Full:
-                SP_Image.spriteName = string.Format("{0}{1}",IG_Manager.Instance.CurrentStage,Common.Sprite_DF);
+                SP_Image.spriteName = string.Format("{0}{1}",1,Common.Sprite_DF);
                 //SP_Image.height = (int)Common.FullObj_y_Size;
                 //Col.size = new Vector2(Col.size.x, Common.FullObj_y_Size);
                 SetImage(64, (int)Common.FullObj_y_Size);
                 break;
 
             case Common.PosType.Up_Fly:
-                SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_UFly);
+                SetImage(50, 50);
                 break;
 
             case Common.PosType.Down_Fly:
-                SP_Image.spriteName = string.Format("St{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_DFly);
+                SetImage(50, 50);
                 break;
         }
         //타입 맞춰서 이미지 늘리기, 콜라이더 조정
@@ -194,12 +196,12 @@ public class IG_Object : MonoBehaviour
         switch ((Data as Data_FlyObject).PosType)
         {
             case Common.PosType.Up_Fly:
-                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_UFly);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_UFly);
                 break;
 
             default:
             case Common.PosType.Down_Fly:
-                SP_Image.spriteName = string.Format("{0}{1}", IG_Manager.Instance.CurrentStage, Common.Sprite_DFly);
+                SP_Image.spriteName = string.Format("{0}{1}", 1, Common.Sprite_DFly);
                 break;
         }
         //이미지 변경
@@ -212,10 +214,12 @@ public class IG_Object : MonoBehaviour
             default:
             case Common.GetType.Gold:
                 SP_Image.spriteName = Common.Sprite_Gold;
+                SetImage(40, 40);
                 break;
 
             case Common.GetType.Speed:
                 SP_Image.spriteName = Common.Sprite_Booster;
+                SetImage(50, 50);
                 break;
         }
         //이미지 변경

@@ -151,21 +151,44 @@ public class AnimalControl : MonoBehaviour
         if (IG_Manager.Instance.IsGameOver == true) return;
 
         col.GetClear();
-        Data_GetObject data = col.Data as Data_GetObject;
-        switch (data.GetType)
-        {
-            default:
-            case Common.GetType.Gold:
-                //IG_Manager.Instance.CurrentGold += data.Value;
-                IG_Manager.Instance.CurrentScore += 50;
-                col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
-                break;
 
-            case Common.GetType.Speed:
-                IG_Manager.Instance.AnimalRun(data.Value);
-                col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
-                break;
+        if (col.Data is Data_GetObject)
+        {
+            Data_GetObject data = col.Data as Data_GetObject;
+            switch (data.GetType)
+            {
+                default:
+                case Common.GetType.Gold:
+                    //IG_Manager.Instance.CurrentGold += data.Value;
+                    IG_Manager.Instance.CurrentScore += 50;
+                    col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
+                    break;
+
+                case Common.GetType.Speed:
+                    IG_Manager.Instance.AnimalRun(data.Value);
+                    col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
+                    break;
+            }
         }
+        else if (col.Data is Data_FlyGetObject)
+        {
+            Data_FlyGetObject data = col.Data as Data_FlyGetObject;
+            switch (data.GetType)
+            {
+                default:
+                case Common.GetType.Gold:
+                    //IG_Manager.Instance.CurrentGold += data.Value;
+                    IG_Manager.Instance.CurrentScore += 50;
+                    col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
+                    break;
+
+                case Common.GetType.Speed:
+                    IG_Manager.Instance.AnimalRun(data.Value);
+                    col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
+                    break;
+            }
+        }
+       
     }
 
     void OnCollide_Build(IG_Object col)
@@ -175,6 +198,7 @@ public class AnimalControl : MonoBehaviour
         col.PlaySound(sound.Collide, SoundList[(int)sound.Collide]);
         if (IsRunning)
         {
+            IG_Manager.Instance.CurrentScore += 30;
             col.CollideGone();
             //장애물 튕김액션
         }

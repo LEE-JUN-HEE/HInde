@@ -11,6 +11,7 @@ public class HL_Manager : MonoBehaviour
     public Animator RingMaster;
     public Animator Elephant;
     public GameObject GO_ExitPopup;
+    public PN_Help HelpUI;
 
     bool isPopup = false;
     bool isringmalookright = true;
@@ -134,8 +135,9 @@ public class HL_Manager : MonoBehaviour
         Social.ShowAchievementsUI();
     }
 
-    public void OnClick_Setting()
+    public void OnClick_Help()
     {
+        HelpUI.Show();
     }
 
     public void OnClick_ExitApp()

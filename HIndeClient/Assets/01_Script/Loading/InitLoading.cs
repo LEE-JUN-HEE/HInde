@@ -14,6 +14,7 @@ using GoogleMobileAds.Api;
 
 public class InitLoading : MonoBehaviour
 {
+    public UILabel lb_Info = null;
     public UILabel LB_Text = null;
     public GameObject Login_Popup = null;
 
@@ -30,6 +31,8 @@ public class InitLoading : MonoBehaviour
 
     IEnumerator Loading()
     {
+        lb_Info.text = "코끼리가 공연을 끝내고 우리로 들어가고 있습니다";
+        LB_Text.text = "머리속으로 탈출을 생각하며 준비중입니다";
         ////맵 데이터 리스트
         //Local_DB.MapData.Add(ParseMap("Map/Stage1"));
         //Local_DB.MapData.Add(ParseMap("Map/Stage1"));
@@ -53,6 +56,19 @@ public class InitLoading : MonoBehaviour
         }
 
         //유저정보 읽어오기(서버 연동이면 서버작업, 로컬이면 로컬작업)
+        if (PlayerPrefs.HasKey("PlayCnt"))
+        {
+            Common.Playcnt30 = PlayerPrefs.GetInt("PlayCnt");
+            Common.tutorial = PlayerPrefs.GetInt("Tuto");
+        }
+        else
+        {
+            Common.Playcnt30 = 0;
+            Common.tutorial = 1; 
+            PlayerPrefs.SetInt("PlayCnt", 0);
+            PlayerPrefs.SetInt("Tuto", 1);
+            PlayerPrefs.Save();
+        }
         //
 
         //Admob
@@ -62,7 +78,8 @@ public class InitLoading : MonoBehaviour
         banner.Show();
 
         isComplete = true;
-        LB_Text.text = "로딩 완료. 계속하려면 터치하세요";
+        lb_Info.text = "코끼리가 우리에 들어갔습니다!";
+        LB_Text.text = "탈출 준비 완료! 계속하려면 터치하세요";
 
         while (isClick == false)
         {

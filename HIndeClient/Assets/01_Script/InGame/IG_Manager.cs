@@ -17,9 +17,11 @@ public class IG_Manager : MonoBehaviour
     public Transform FirePos;
     public Transform TargetPos;
 
-    public float CurrentScore;
-    public float CurrentGold;
-    public int CurrentStage;
+    public float CurrentScore = 0;
+    public int CurrentGold = 0;
+    public int CurrentBall = 0;
+    public int CurrentCollide = 0;
+    public int CurrentStage = 0;
     public Queue<IG_Object> MapQueue = new Queue<IG_Object>();
     public List<Texture> BGList = new List<Texture>();
     public List<Texture> GroundList = new List<Texture>();
@@ -181,6 +183,41 @@ public class IG_Manager : MonoBehaviour
             {
                 Debug.Log(success);
             });
+
+
+            Social.ReportProgress(GPGS.GPGS.achievement_100m, (float)CurrentScore / 100f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_200m, (float)CurrentScore / 200f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_500m, (float)CurrentScore / 500f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_1000m, (float)CurrentScore / 1000f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_2000m, (float)CurrentScore / 2000f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_3000m, (float)CurrentScore / 3000f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_5000m, (float)CurrentScore / 5000f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_10000m, (float)CurrentScore / 10000f * 100, (bool success) => { Debug.Log(success); });
+
+            Social.ReportProgress(GPGS.GPGS.achievement_collide_5, (float)CurrentCollide / 5f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_collide_10, (float)CurrentCollide / 10f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_collide_20, (float)CurrentCollide / 20f * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_collide_30, (float)CurrentCollide / 30f * 100, (bool success) => { Debug.Log(success); });
+
+            Social.ReportProgress(GPGS.GPGS.achievement_coin_5, (float)CurrentGold / 5 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_coin_10, (float)CurrentGold / 10 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_coin_20, (float)CurrentGold / 20 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_coin_50, (float)CurrentGold / 50 * 100, (bool success) => { Debug.Log(success); });
+
+            Social.ReportProgress(GPGS.GPGS.achievement_booster_1, (float)CurrentBall / 1 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_booster_3, (float)CurrentBall / 3 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_booster_7, (float)CurrentBall / 7 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_booster_10, (float)CurrentBall / 10 * 100, (bool success) => { Debug.Log(success); });
+
+            Social.ReportProgress(GPGS.GPGS.achievement_level_3, (float)CurrentStage / 3 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_level_5, (float)CurrentStage / 5 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_level_8, (float)CurrentStage / 8 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_level_10, (float)CurrentStage / 10 * 100, (bool success) => { Debug.Log(success); });
+
+            Social.ReportProgress(GPGS.GPGS.achievement_play_1, (float)Common.Playcnt30 / 1 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_play_5, (float)Common.Playcnt30 / 5 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_play_10, (float)Common.Playcnt30 / 10 * 100, (bool success) => { Debug.Log(success); });
+            Social.ReportProgress(GPGS.GPGS.achievement_play_30, (float)Common.Playcnt30 / 30 * 100, (bool success) => { Debug.Log(success); });
         }
     }
 

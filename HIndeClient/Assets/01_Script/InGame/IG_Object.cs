@@ -126,6 +126,7 @@ public class IG_Object : MonoBehaviour
             case AnimalControl.sound.Booster:
             case AnimalControl.sound.GetCoin:
             case AnimalControl.sound.Collide:
+            case AnimalControl.sound.BBuzik:
                 GetComponent<AudioSource>().clip = clip;
                 GetComponent<AudioSource>().Play();
                 break;

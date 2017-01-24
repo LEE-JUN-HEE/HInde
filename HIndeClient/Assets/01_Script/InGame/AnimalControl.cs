@@ -11,6 +11,8 @@ public class AnimalControl : MonoBehaviour
         Change = 2,
         Collide = 3,
         GetCoin = 4,
+        BBuzik = 5,
+        TheEnd = 6,
     }
 
     public bool IsUp { get; set; }
@@ -90,6 +92,7 @@ public class AnimalControl : MonoBehaviour
         transform.localPosition = new Vector3(transform.localPosition.x, -Common.BasicPos, transform.localPosition.z);
         rigid.gravityScale = 0.3f;
         transform.localRotation = new Quaternion(0, 0, 0, 0);
+        PlaySound(sound.TheEnd);
         anim.SetTrigger("Catched");
     }
 
@@ -99,6 +102,7 @@ public class AnimalControl : MonoBehaviour
         {
             case sound.Jump:
             case sound.Change:
+            case sound.TheEnd:
                 AnimalAudio.clip = SoundList[(int)index];
                 AnimalAudio.Play();
                 break;
@@ -161,11 +165,13 @@ public class AnimalControl : MonoBehaviour
                 case Common.GetType.Gold:
                     //IG_Manager.Instance.CurrentGold += data.Value;
                     IG_Manager.Instance.CurrentScore += 50;
+                    IG_Manager.Instance.CurrentGold += 1;
                     col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
                     break;
 
                 case Common.GetType.Speed:
                     IG_Manager.Instance.AnimalRun(data.Value);
+                    IG_Manager.Instance.CurrentBall += 1;
                     col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
                     break;
             }
@@ -179,11 +185,13 @@ public class AnimalControl : MonoBehaviour
                 case Common.GetType.Gold:
                     //IG_Manager.Instance.CurrentGold += data.Value;
                     IG_Manager.Instance.CurrentScore += 50;
+                    IG_Manager.Instance.CurrentGold += 1;
                     col.PlaySound(sound.GetCoin, SoundList[(int)sound.GetCoin]);
                     break;
 
                 case Common.GetType.Speed:
                     IG_Manager.Instance.AnimalRun(data.Value);
+                    IG_Manager.Instance.CurrentBall += 1;
                     col.PlaySound(sound.Booster, SoundList[(int)sound.Booster]);
                     break;
             }
@@ -195,16 +203,18 @@ public class AnimalControl : MonoBehaviour
     {
         if (IG_Manager.Instance.IsGameOver == true) return;
 
-        col.PlaySound(sound.Collide, SoundList[(int)sound.Collide]);
         if (IsRunning)
         {
+            col.PlaySound(sound.Collide, SoundList[(int)sound.Collide]);
             IG_Manager.Instance.CurrentScore += 30;
             col.CollideGone();
             //장애물 튕김액션
         }
         else
         {
+            col.PlaySound(sound.BBuzik, SoundList[(int)sound.BBuzik]);
             IG_Manager.Instance.AnimalStop(Common.StopTime);
+            IG_Manager.Instance.CurrentCollide += 1;
             anim.SetBool("Hurt", true);
         }
     }
@@ -221,6 +231,7 @@ public class AnimalControl : MonoBehaviour
         {
             IG_Manager.Instance.AnimalStop(Common.WebStopTime);
             anim.SetBool("Hurt", true);
+            IG_Manager.Instance.CurrentCollide += 1;
         }
         //IG_Manager.Instance.GameOver();
     }
